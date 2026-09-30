@@ -1,0 +1,103 @@
+/* Global Color Variables */
+:root {
+    --background-color: #0e0c0c;
+    --font-color: #fefefe;
+    --pure-white: #fff;
+    --pure-black: #000;
+}
+
+/* Viaoda Font Face */
+@font-face {
+    font-family: 'Metamorphous';
+    src:
+        url('https://ik.imagekit.io/edwinb24/Others/Metamorphous-Regular_B4MNJ8OHD.woff2?updatedAt=1762427124643')
+            format('woff2 supports variations'),
+        url('https://ik.imagekit.io/edwinb24/Others/Metamorphous-Regular_B4MNJ8OHD.woff2?updatedAt=1762427124643')
+            format('woff2-variations');
+    font-weight: 100 1000;
+}
+
+/* Resetting Styles */
+
+html,
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: transparent;
+    box-sizing: border-box;
+    height: 100vh;
+}
+
+@media only screen and (max-width: 850px) {
+    html,
+    body {
+        width: 100vw;
+        max-width: 100%;
+        overflow-x: hidden;
+        padding: 0px;
+        margin: 0px;
+    }
+}
+
+html,
+body,
+ul,
+p,
+h6,
+figure,
+div,
+h2,
+iframe {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body {
+    width: 100vw;
+    overflow-x: hidden;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    color: var(--font-color);
+    background: var(--background-color);
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 767) {
+    body {
+        justify-content: center;
+    }
+}
+
+iframe {
+    width: 100%;
+}
+table {
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul,
+ol {
+    list-style-type: none;
+}
+
+button {
+    background: transparent;
+    border: none;
+}
+
+div,
+li {
+    box-sizing: border-box;
+}
+
+p {
+    color: var(--font-color);
+}
