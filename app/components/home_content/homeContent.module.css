@@ -1,0 +1,10 @@
+.homeConentWrapper {
+    width: min(800px, 80vw);
+    padding: 20;
+    border: 3px solid #ddd;
+    border-radius: 5;
+    background: rgba(255, 255, 255, 0.05);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari support */
+}

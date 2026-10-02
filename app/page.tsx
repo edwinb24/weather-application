@@ -1,19 +1,12 @@
-import Image from 'next/image'
+import HomeContent from '@/components/home_content/HomeContent'
 import styles from './page.module.css'
 
 export default function Home() {
     return (
         <div className={styles.page}>
             <main className={styles.main}>
-                <Image
-                    className={styles.logo}
-                    src='/next.svg'
-                    alt='Next.js logo'
-                    width={100}
-                    height={20}
-                    priority
-                />
-                <p>TESTING</p>
+                <h1 className={styles.titleMain}>Welcome to the Weather App</h1>
+                <HomeContent />
             </main>
         </div>
     )

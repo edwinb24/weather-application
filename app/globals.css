@@ -1,4 +1,15 @@
-body {
-    --background: #0e0c0c;
-    min-height: 800;
+:root {
+    --background: #000;
+    --foreground: #fff;
+
+    --text-primary: #000;
+    --text-secondary: #666;
+
+    --button-primary: #383838;
+    --button-secondary: #f2f2f2;
+    --button-primary-hover: #383838;
+    --button-secondary-hover: #f2f2f2;
+
+    --gray-highlights-color: #666;
+    --lightest-background-color: #fefefe;
 }
