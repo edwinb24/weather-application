@@ -9,7 +9,32 @@ export default function HomeContent() {
         location: {value: '', validationMessage: '', edited: false},
     })
 
-    const handleFormSubmittion = () => {
+    const handleFormSubmittion = async () => {
+        console.log('formInputs.location.value-----')
+        console.log(formInputs.location.value)
+        try {
+            const response = await fetch('/api/weather-request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    location: formInputs.location.value,
+                }),
+            })
+
+            const data = await response.json()
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Unable to get weather.')
+            }
+            console.log('WEATHER DATA')
+            console.log(data)
+        } catch (error) {
+            console.log('error====')
+            console.log(error)
+        }
+
         clearFields()
     }
     const handleFieldBlur = (position: string) => {
