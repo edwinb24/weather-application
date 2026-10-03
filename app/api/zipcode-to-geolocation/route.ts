@@ -1,18 +1,12 @@
-import {WEATHER_UNIT, WEATHER_URL} from '@/utils/constants'
-
 export async function POST(request: Request) {
     const requestInfo = await request.json()
-    const {location} = requestInfo
+    const {zipcode} = requestInfo
 
-    const [lat, lon] = location.split(',')
-    console.log('**********************************lat:', lat)
-    console.log('**********************************lon:', lon)
+    console.log('**********************************zipcode:', zipcode)
     try {
-        const url = new URL(WEATHER_URL)
-        url.searchParams.set('lat', lat)
-        url.searchParams.set('lon', lon)
+        const url = new URL(ZIP_TO_GEOLOCATION_URL)
+        url.searchParams.set('zip', `${zipcode}`)
         url.searchParams.set('appid', process.env.WEATHER_API_KEY!)
-        url.searchParams.set('units', WEATHER_UNIT)
 
         const response = await fetch(url)
         const data = await response.json()
@@ -23,6 +17,5 @@ export async function POST(request: Request) {
         console.log('error here')
         console.log(e)
     }
-
     return Response.json({message: 'Hello World'})
 }
