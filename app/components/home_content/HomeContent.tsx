@@ -3,8 +3,13 @@ import formClasses from '@/globalFormStyles.module.css'
 import {addressToGeolocation} from '@/lib/addressToGeolocation'
 import {getWeather} from '@/lib/getWeather'
 import {zipToGeolocation} from '@/lib/zipToGeolocation'
-import {FormDataType} from '@/sharedTypes'
-import {LOCATION_INPUT_TYPES} from '@/utils/constants'
+import {
+    AddressType,
+    FormDataType,
+    LongitudeAndLatitudeType,
+    WeatherApiResponse,
+} from '@/sharedTypes'
+import {LOCATION_INPUT_TYPES, WEATHER_URL} from '@/utils/constants'
 import {normalizeAndValidateLocationField} from '@/utils/fieldValidationAndNormalization'
 import {useState} from 'react'
 import styles from './homeContent.module.css'
@@ -14,10 +19,15 @@ export default function HomeContent() {
         location: {value: '', validationMessage: '', edited: false},
     })
     const [formErrorMessage, setFormErrorMessage] = useState<string>('')
+    const [currWeather, setCurrWeather] = useState<WeatherApiResponse>({
+        weatherMain: '',
+        weatherDescription: '',
+        temperature: 0,
+    })
+
+    const handleFieldFocus = () => setFormErrorMessage('')
 
     const handleFormSubmittion = async () => {
-        console.log('formInputs.location.value-----')
-        console.log(formInputs.location.value)
         const normalizedValue = normalizeAndValidateLocationField(
             formInputs.location.value,
         )
@@ -32,36 +42,70 @@ export default function HomeContent() {
             setFormErrorMessage(normalizedValue.validationMessage)
             return
         }
+        let lat = ''
+        let lon = ''
+        let message = ''
+        let displayErrorMessage = ''
         try {
-            let lat = ''
-            let lon = ''
             if (normalizedValue.type === LOCATION_INPUT_TYPES.zipcode) {
-                const response = await zipToGeolocation(normalizedValue.value)
-                const data = await response.json()
+                const response = await zipToGeolocation(
+                    normalizedValue.value as string,
+                )
+                const data = await response
+                lat = data.lat
+                lon = data.lon
+                message = data.message
+                displayErrorMessage = data.displayMessage
             } else if (normalizedValue.type === LOCATION_INPUT_TYPES.address) {
                 const response = await addressToGeolocation(
-                    normalizedValue.value,
+                    normalizedValue.value as AddressType,
                 )
+                const data = await response
+                lat = data.lat
+                lon = data.lon
+                message = data.message
+                displayErrorMessage = data.displayMessage
             } else {
-                ;[lat, lon] = normalizedValue.value.split(',')
+                const coordinates =
+                    normalizedValue.value as LongitudeAndLatitudeType
+                lat = coordinates.lat
+                lon = coordinates.lon
+            }
+            if (message.length > 0) {
+                throw new Error('Error during type convertion: ' + message)
+            }
+            console.log('LAT AND LON')
+            console.log(lat + ',' + lon)
+
+            const response = await getWeather({lat, lon})
+            const data = await response
+            console.log('WEATHER DATA RECEIVED')
+            console.log(data)
+            message = data.message
+            displayErrorMessage = data.displayMessage
+            if (message.length > 0) {
+                throw new Error('Error during type convertion: ' + message)
             }
 
-            const response = await getWeather(lat, lon)
-            console.log('WEATHER DATA')
-            console.log(data)
-        } catch (error) {
-            console.log('error====')
-            console.log(error)
+            setCurrWeather({
+                weatherMain: data.weatherMain,
+                weatherDescription: data.weatherDescription,
+                temperature: data.temperature,
+            })
+            clearFields()
+        } catch (e) {
+            if (e instanceof Error) {
+                message = e.message
+            } else message = 'Unknown Error While Excecuting at: ' + WEATHER_URL
+            console.log(message)
+            setFormErrorMessage(displayErrorMessage)
         }
-
-        clearFields()
     }
     const handleFieldChange = (val: string) => {
         setFormInputs({
             ...formInputs,
             location: {value: val, validationMessage: '', edited: true},
         })
-        console.log(val)
     }
 
     const clearFields = () =>
@@ -91,6 +135,7 @@ export default function HomeContent() {
                     placeholder='City, zip code or geo coordinates'
                     onChange={e => handleFieldChange(e.target.value)}
                     value={formInputs.location.value}
+                    onFocus={() => handleFieldFocus()}
                 ></input>
                 <button
                     type='submit'

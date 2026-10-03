@@ -2,11 +2,8 @@ import {WEATHER_UNIT, WEATHER_URL} from '@/utils/constants'
 
 export async function POST(request: Request) {
     const requestInfo = await request.json()
-    const {location} = requestInfo
+    const {lat, lon} = requestInfo
 
-    const [lat, lon] = location.split(',')
-    console.log('**********************************lat:', lat)
-    console.log('**********************************lon:', lon)
     try {
         const url = new URL(WEATHER_URL)
         url.searchParams.set('lat', lat)
@@ -16,13 +13,47 @@ export async function POST(request: Request) {
 
         const response = await fetch(url)
         const data = await response.json()
-
-        console.log('Response')
+        console.log('RAW DATA')
         console.log(data)
-    } catch (e) {
-        console.log('error here')
-        console.log(e)
-    }
+        if (!response.ok) {
+            return Response.json({
+                weatherMain: '',
+                weatherDescription: '',
+                temperature: 0,
+                displayMessage:
+                    response.status === 400
+                        ? "Weather information couldn't be found"
+                        : response.status === 429
+                          ? "Information can't be retrieve since the application already reach its use quota for the day, try again tomorrow"
+                          : 'Error retrieving weather information',
+                message: `Server Return ${response.status}: ${data?.message ?? 'OpenWeather API error'}`,
+            })
+        }
 
-    return Response.json({message: 'Hello World'})
+        return Response.json({
+            weatherMain: data?.weather[0]?.main || '',
+            weatherDescription: data?.weather[0]?.description || '',
+            temperature: data?.main?.temp ? Math.round(data.main.temp) : 0,
+            displayMessage: data?.message || '',
+            message: data?.message || '',
+        })
+    } catch (e) {
+        let message = ''
+        let displayMessage = ''
+        if (e instanceof Error) {
+            message = e.message
+        } else {
+            displayMessage = 'Error retrieving coordinates for zipcode'
+            message = 'Unknown Error While Excecuting at: ' + WEATHER_URL
+        }
+        console.error(message)
+
+        return Response.json({
+            weatherMain: '',
+            weatherDescription: '',
+            temperature: 0,
+            message,
+            displayMessage,
+        })
+    }
 }

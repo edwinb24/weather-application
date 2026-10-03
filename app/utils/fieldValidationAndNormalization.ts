@@ -1,4 +1,8 @@
-import {AddressType, LongitudeAndLatitudeType} from '@/sharedTypes'
+import {
+    AddressType,
+    LongitudeAndLatitudeType,
+    NormalizeLocation,
+} from '@/sharedTypes'
 import {LOCATION_INPUT_TYPES} from '@/utils/constants'
 
 const isValidZipcode = (zipcode: string) => {
@@ -20,12 +24,6 @@ export const isValidAddress = ({city, state, country}: AddressType) => {
         regexAddress.test(state) ||
         regexAddress.test(country)
     )
-}
-
-export type NormalizeLocation = {
-    value: string | AddressType | LongitudeAndLatitudeType
-    validationMessage: string
-    type: string
 }
 
 export const normalizeAndValidateLocationField = (

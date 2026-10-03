@@ -4,9 +4,25 @@ type FormInputType = {
     edited: boolean
 }
 
-export type LongitudeAndLatitudeType = {
+export interface LongitudeAndLatitudeType {
     lat: string
     lon: string
+}
+
+export interface CoordinateConvertionApiResponse extends LongitudeAndLatitudeType {
+    message: string
+    displayMessage: string
+}
+
+export interface CurrentWeatherApiResponse extends WeatherApiResponse {
+    message: string
+    displayMessage: string
+}
+
+export type WeatherApiResponse = {
+    weatherMain: string
+    weatherDescription: string
+    temperature: number
 }
 
 export type AddressType = {
@@ -16,3 +32,9 @@ export type AddressType = {
 }
 
 export type FormDataType = Record<string, FormInputType>
+
+export type NormalizeLocation = {
+    value: string | AddressType | LongitudeAndLatitudeType
+    validationMessage: string
+    type: string
+}

@@ -7,8 +7,8 @@ export const CITY_COUNTRY_TO_GEOLOCATION_URL =
 
 /** Local Server Side APIs */
 export const GET_WEATHER_SS_API = '/api/weather-request'
-export const ZIP_TO_GEOLOCATION_SS_API = '/api/zip-to-geolocation'
-export const CITY_TO_GEOLOCATION_SS_API = '/api/city-to-geolocation'
+export const ZIP_TO_GEOLOCATION_SS_API = '/api/zipcode-to-geolocation'
+export const ADDRESS_TO_GEOLOCATION_SS_API = '/api/address-to-geolocation'
 
 export const WEATHER_UNIT = 'imperial'
 

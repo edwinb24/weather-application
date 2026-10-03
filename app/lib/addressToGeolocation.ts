@@ -1,15 +1,20 @@
-import {CITY_TO_GEOLOCATION_SS_API} from '@/utils/constants'
+import {CoordinateConvertionApiResponse} from '@/sharedTypes'
 
-export const addressToGeolocation = async (zipcode: string) => {
-    const location = await fetch(CITY_TO_GEOLOCATION_SS_API, {
+import {AddressType} from '@/sharedTypes'
+import {ADDRESS_TO_GEOLOCATION_SS_API} from '@/utils/constants'
+
+export const addressToGeolocation = async ({
+    city,
+    state,
+    country,
+}: AddressType): Promise<CoordinateConvertionApiResponse> => {
+    const response = await fetch(ADDRESS_TO_GEOLOCATION_SS_API, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-            zipcode,
-        }),
+        body: JSON.stringify({city, state, country}),
     })
 
-    return location
+    return response.json()
 }
