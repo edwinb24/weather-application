@@ -1,11 +1,3 @@
-/* Global Color Variables */
-:root {
-    --background-color: #0e0c0c;
-    --font-color: #fefefe;
-    --pure-white: #fff;
-    --pure-black: #000;
-}
-
 /* Viaoda Font Face */
 @font-face {
     font-family: 'Metamorphous';

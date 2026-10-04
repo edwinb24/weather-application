@@ -28,8 +28,6 @@ export default function HomeContent() {
         location: '',
     })
 
-    const handleFieldFocus = () => setFormErrorMessage('')
-
     const handleFormSubmittion = async () => {
         const normalizedValue = normalizeAndValidateLocationField(
             formInputs.location.value,
@@ -77,13 +75,10 @@ export default function HomeContent() {
             if (message.length > 0) {
                 throw new Error('Error during type convertion: ' + message)
             }
-            console.log('LAT AND LON')
-            console.log(lat + ',' + lon)
 
             const response = await getWeather({lat, lon})
             const data = await response
-            console.log('WEATHER DATA RECEIVED')
-            console.log(data)
+
             message = data.message
             displayErrorMessage = data.displayMessage
             if (message.length > 0) {
@@ -107,6 +102,7 @@ export default function HomeContent() {
         }
     }
     const handleFieldChange = (val: string) => {
+        setFormErrorMessage(`${val.length < 1 ? 'Location required' : ''}`)
         setFormInputs({
             ...formInputs,
             location: {value: val, validationMessage: '', edited: true},
@@ -133,24 +129,24 @@ export default function HomeContent() {
                     comma (,) or your zipcode
                 </p>
                 <input
-                    autoComplete='address'
-                    className={formClasses.genericFormField}
+                    autoComplete='zip'
+                    className={`${formClasses.genericFormField} ${formErrorMessage.length > 0 && formClasses.genericFormFieldError}`}
                     type='text'
                     name='location'
-                    placeholder='City, zip code or geo coordinates'
+                    placeholder='City, state and country, zip code and country, or geo coordinates'
                     onChange={e => handleFieldChange(e.target.value)}
                     value={formInputs.location.value}
-                    onFocus={() => handleFieldFocus()}
                 ></input>
+                <div className={formClasses.formFieldErrorMessage}>
+                    {`${formErrorMessage ? '❌ ' + formErrorMessage : ''}`}
+                </div>
                 <button
                     type='submit'
                     className={formClasses.genericFormSubmitButton}
+                    disabled={formInputs.location.value.length < 1}
                 >
                     Submit
                 </button>
-                <p className={formClasses.formFieldErrorMessage}>
-                    {formErrorMessage}
-                </p>
             </form>
             {currWeather.weatherMain.length > 0 && (
                 <WeatherResult

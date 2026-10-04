@@ -23,7 +23,7 @@
             rgba(20, 20, 20, 0.02) 75%,
             rgba(20, 20, 20, 0.02)
         );
-    background-color: var(--background);
+    background-color: var(--color-secundar);
     background-size: 20px 20px;
 }
 .main {

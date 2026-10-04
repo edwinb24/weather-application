@@ -12,7 +12,7 @@ export default function WeatherResult({
 }: DisplayWeatherResult) {
     return (
         <div className={styles.weatherInfoWrapper}>
-            <p>{`The weather for ${location} is ${weatherDescription}.`}</p>
+            <p>{`The weather at ${location} is ${weatherDescription}.`}</p>
             <div className={styles.weatherInfo}>
                 <div className={styles.weatherDetails}>
                     <p className={styles.weatherMain}>{weatherMain}</p>
