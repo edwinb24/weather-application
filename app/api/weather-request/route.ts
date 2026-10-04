@@ -15,7 +15,7 @@ export async function POST(request: Request) {
         const data = await response.json()
         console.log('RAW DATA')
         console.log(data)
-        if (!response.ok) {
+        if (!response.ok || !data?.weather[0]) {
             return Response.json({
                 weatherMain: '',
                 weatherDescription: '',
@@ -31,8 +31,9 @@ export async function POST(request: Request) {
         }
 
         return Response.json({
-            weatherMain: data?.weather[0]?.main || '',
-            weatherDescription: data?.weather[0]?.description || '',
+            weatherMain: data.weather[0].main || '',
+            weatherDescription: data.weather[0].description || '',
+            weatherIcon: data.weather[0].icon || '',
             temperature: data?.main?.temp ? Math.round(data.main.temp) : 0,
             displayMessage: data?.message || '',
             message: data?.message || '',
@@ -52,6 +53,7 @@ export async function POST(request: Request) {
             weatherMain: '',
             weatherDescription: '',
             temperature: 0,
+            weatherIcon: '',
             message,
             displayMessage,
         })

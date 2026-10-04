@@ -4,6 +4,8 @@ export const ZIP_TO_GEOLOCATION_URL =
     'http://api.openweathermap.org/geo/1.0/zip'
 export const CITY_COUNTRY_TO_GEOLOCATION_URL =
     'http://api.openweathermap.org/geo/1.0/direct'
+export const WEATHER_ICON_URL =
+    'https://openweathermap.org/payload/api/media/file/'
 
 /** Local Server Side APIs */
 export const GET_WEATHER_SS_API = '/api/weather-request'

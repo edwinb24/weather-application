@@ -1,0 +1,22 @@
+.weatherInfoWrapper {
+    border-top: 3 solid #666;
+    padding-top: 20;
+}
+
+.weatherInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.weatherDetails {
+    width: 200;
+}
+
+.weatherMain {
+    font-size: 40;
+}
+
+.temperature {
+    font-size: 50;
+    font-weight: 800;
+}

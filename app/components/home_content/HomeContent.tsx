@@ -5,24 +5,27 @@ import {getWeather} from '@/lib/getWeather'
 import {zipToGeolocation} from '@/lib/zipToGeolocation'
 import {
     AddressType,
+    DisplayWeatherResult,
     FormDataType,
     LongitudeAndLatitudeType,
-    WeatherApiResponse,
 } from '@/sharedTypes'
 import {LOCATION_INPUT_TYPES, WEATHER_URL} from '@/utils/constants'
 import {normalizeAndValidateLocationField} from '@/utils/fieldValidationAndNormalization'
 import {useState} from 'react'
 import styles from './homeContent.module.css'
+import WeatherResult from './weather_result/weatherResult'
 
 export default function HomeContent() {
     const [formInputs, setFormInputs] = useState<FormDataType>({
         location: {value: '', validationMessage: '', edited: false},
     })
     const [formErrorMessage, setFormErrorMessage] = useState<string>('')
-    const [currWeather, setCurrWeather] = useState<WeatherApiResponse>({
+    const [currWeather, setCurrWeather] = useState<DisplayWeatherResult>({
         weatherMain: '',
         weatherDescription: '',
         temperature: 0,
+        weatherIcon: '',
+        location: '',
     })
 
     const handleFieldFocus = () => setFormErrorMessage('')
@@ -91,6 +94,8 @@ export default function HomeContent() {
                 weatherMain: data.weatherMain,
                 weatherDescription: data.weatherDescription,
                 temperature: data.temperature,
+                weatherIcon: data.weatherIcon,
+                location: formInputs.location.value,
             })
             clearFields()
         } catch (e) {
@@ -147,6 +152,15 @@ export default function HomeContent() {
                     {formErrorMessage}
                 </p>
             </form>
+            {currWeather.weatherMain.length > 0 && (
+                <WeatherResult
+                    location={currWeather.location}
+                    weatherMain={currWeather.weatherMain}
+                    weatherDescription={currWeather.weatherDescription}
+                    temperature={currWeather.temperature}
+                    weatherIcon={currWeather.weatherIcon}
+                />
+            )}
         </div>
     )
 }
