@@ -42,6 +42,24 @@
       "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
+      "page": "/api/address-to-geolocation",
+      "regex": "^/api/address\\-to\\-geolocation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/address\\-to\\-geolocation(?:/)?$"
+    },
+    {
+      "page": "/api/weather-request",
+      "regex": "^/api/weather\\-request(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/weather\\-request(?:/)?$"
+    },
+    {
+      "page": "/api/zipcode-to-geolocation",
+      "regex": "^/api/zipcode\\-to\\-geolocation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/zipcode\\-to\\-geolocation(?:/)?$"
+    },
+    {
       "page": "/favicon.ico",
       "regex": "^/favicon\\.ico(?:/)?$",
       "routeKeys": {},

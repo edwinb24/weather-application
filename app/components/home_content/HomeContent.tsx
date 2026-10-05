@@ -96,7 +96,7 @@ export default function HomeContent() {
             if (e instanceof Error) {
                 message = e.message
             } else message = 'Unknown Error While Excecuting at: ' + WEATHER_URL
-            console.log(message)
+            console.error(message)
             setFormErrorMessage(displayErrorMessage)
         }
     }

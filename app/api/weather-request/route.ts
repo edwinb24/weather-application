@@ -13,8 +13,7 @@ export async function POST(request: Request) {
 
         const response = await fetch(url)
         const data = await response.json()
-        console.log('RAW DATA')
-        console.log(data)
+
         if (!response.ok || !data?.weather[0]) {
             return Response.json({
                 weatherMain: '',
