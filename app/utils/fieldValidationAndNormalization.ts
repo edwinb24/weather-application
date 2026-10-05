@@ -6,8 +6,20 @@ import {
 import {LOCATION_INPUT_TYPES} from '@/utils/constants'
 
 const isValidZipcode = (zipcode: string) => {
-    const zipcodeRegex = /^\d{5}(?:[-\s]\d{4})?$/
-    return zipcodeRegex.test(zipcode)
+    const splittedCode = zipcode.split(',')
+    if (splittedCode.length < 2) {
+        const usZipCodeRegex = /^\d{5}(?:[-\s]\d{4})?$/
+        return usZipCodeRegex.test(zipcode)
+    } else {
+        const internationalZipCodeRegex = /^[a-zA-Z0-9 -]+$/
+
+        return (
+            internationalZipCodeRegex.test(splittedCode[0]) &&
+            splittedCode[0].length <= 20 &&
+            splittedCode[0].trim().split(' ').length <= 2 &&
+            splittedCode[1].trim().length == 2
+        )
+    }
 }
 
 const isValidGeolocation = ({lat, lon}: LongitudeAndLatitudeType) => {
@@ -39,9 +51,6 @@ export const normalizeAndValidateLocationField = (
     const splittedValue = value.split(',')
     if (
         splittedValue.length == 2 &&
-        // this could be remove as it is already part of the validation,
-        // but this way it provide a better message for users that enter
-        // only city and state and forget the country
         !isNaN(Number(splittedValue[0])) &&
         !isNaN(Number(splittedValue[1]))
     ) {
@@ -72,9 +81,20 @@ export const normalizeAndValidateLocationField = (
         validationMessage =
             'Please enter a valid location in the correct format'
     }
+    let normalizedZipcode = ''
+    if (splittedValue.length < 2) {
+        // US Zipcodes entries without country code
+        normalizedZipcode = value.trim().substring(0, 5)
+    } else {
+        // International Zipcodes with country code
+        normalizedZipcode =
+            splittedValue[0].trim().split(' ')[0] +
+            ',' +
+            splittedValue[1].trim()
+    }
     return {
         type,
-        value,
+        value: normalizedZipcode,
         validationMessage,
     }
 }

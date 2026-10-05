@@ -3,6 +3,10 @@
     padding-top: 20;
 }
 
+.weatherInfoWrapper:first-letter {
+    text-transform: uppercase;
+}
+
 .weatherInfo {
     display: flex;
     align-items: center;

@@ -92,7 +92,6 @@ export default function HomeContent() {
                 weatherIcon: data.weatherIcon,
                 location: formInputs.location.value,
             })
-            clearFields()
         } catch (e) {
             if (e instanceof Error) {
                 message = e.message
@@ -109,11 +108,6 @@ export default function HomeContent() {
         })
     }
 
-    const clearFields = () =>
-        setFormInputs({
-            location: {value: '', validationMessage: '', edited: true},
-        })
-
     return (
         <div className={styles.homeConentWrapper}>
             <form
@@ -126,7 +120,8 @@ export default function HomeContent() {
                 <p className={formClasses.formDescription}>
                     To get started, enter your city in the format city,
                     state/province, country, your geo coordinates separated by a
-                    comma (,) or your zipcode
+                    comma (,) or your zipcode follow by the 2 letter country
+                    code.
                 </p>
                 <input
                     autoComplete='zip'
