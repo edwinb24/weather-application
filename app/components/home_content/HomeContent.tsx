@@ -28,7 +28,6 @@ export default function HomeContent() {
         weatherIcon: '',
         location: '',
     })
-
     const handleFormSubmittion = async () => {
         const normalizedValue = normalizeAndValidateLocationField(
             formInputs.location.value,
