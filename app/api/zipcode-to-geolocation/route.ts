@@ -3,7 +3,8 @@ import {ZIP_TO_GEOLOCATION_URL} from '@/utils/constants'
 export async function POST(request: Request): Promise<Response> {
     const requestInfo = await request.json()
     const {zipcode} = requestInfo
-
+    console.log('zipcode')
+    console.log(zipcode)
     try {
         const url = new URL(ZIP_TO_GEOLOCATION_URL)
         url.searchParams.set('zip', `${zipcode}`)
