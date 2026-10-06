@@ -8,6 +8,11 @@ Here are the steps to get started:
 3. Run `yarn dev`
 4. Check port [3000](http://localhost:3000/)
 
+## Server Access
+For server access, you need an invitation to our DigitalOcean server. Reach out to edwinbroce@gmail.com to get one. Once you have an invitation to the server, follow the steps found in the documentation below:
+
+[Server Access Documentation](https://broceedwin.atlassian.net/wiki/external/MWRlYTcxNjBjZDA5NDUxN2I2NTAzODJhZTJiZTA3ZDk)
+
 ## Production Application
 The production application lives at [weather.edwinbroce.com](weather.edwinbroce.com) behind a VPN. For step-by-step instructions on how to access the application, follow the documentation below:
 
