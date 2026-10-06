@@ -6,6 +6,7 @@ export const CITY_COUNTRY_TO_GEOLOCATION_URL =
     'http://api.openweathermap.org/geo/1.0/direct'
 export const WEATHER_ICON_URL =
     'https://openweathermap.org/payload/api/media/file/'
+export const OPENWEATHER_LINK = 'https://openweathermap.org/'
 
 /** Local Server Side APIs */
 export const GET_WEATHER_SS_API = '/api/weather-request'

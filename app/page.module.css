@@ -37,3 +37,15 @@
 .titleMain {
     max-width: 90vw;
 }
+
+.attribution {
+    position: absolute;
+    display: flex;
+    right: 150;
+    flex-flow: column;
+    bottom: 5;
+    font-style: italic;
+    font-size: 10;
+    align-items: end;
+    justify-content: end;
+}

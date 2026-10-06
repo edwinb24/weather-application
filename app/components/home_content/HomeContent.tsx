@@ -3,6 +3,7 @@ import formClasses from '@/globalFormStyles.module.css'
 import {addressToGeolocation} from '@/lib/addressToGeolocation'
 import {getWeather} from '@/lib/getWeather'
 import {zipToGeolocation} from '@/lib/zipToGeolocation'
+
 import {
     AddressType,
     DisplayWeatherResult,
