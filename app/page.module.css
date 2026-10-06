@@ -41,7 +41,7 @@
 .attribution {
     position: absolute;
     display: flex;
-    right: 150;
+    right: 20;
     flex-flow: column;
     bottom: 5;
     font-style: italic;
