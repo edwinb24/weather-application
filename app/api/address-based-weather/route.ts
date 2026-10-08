@@ -1,15 +1,11 @@
-import {
-    CITY_COUNTRY_TO_GEOLOCATION_URL,
-    WEATHER_UNIT,
-    WEATHER_URL,
-} from '@/utils/constants'
+import {ADDRESS_BASED_WEATHER_URL, WEATHER_UNIT} from '@/utils/constants'
 
 export async function POST(request: Request): Promise<Response> {
     const requestInfo = await request.json()
     const {city, state, country} = requestInfo
 
     try {
-        const url = new URL(CITY_COUNTRY_TO_GEOLOCATION_URL)
+        const url = new URL(ADDRESS_BASED_WEATHER_URL)
         url.searchParams.set('q', `${city},${state},${country}`)
         url.searchParams.set('appid', process.env.WEATHER_API_KEY!)
         url.searchParams.set('units', WEATHER_UNIT)
@@ -47,7 +43,9 @@ export async function POST(request: Request): Promise<Response> {
             message = e.message
         } else {
             displayMessage = 'Error retrieving coordinates for zipcode'
-            message = 'Unknown Error While Excecuting at: ' + WEATHER_URL
+            message =
+                'Unknown Error While Excecuting at: ' +
+                ADDRESS_BASED_WEATHER_URL
         }
         console.error(message)
 
