@@ -1,9 +1,9 @@
 /**Open Weather API Routes */
 export const WEATHER_URL = 'https://api.openweathermap.org/data/2.5/weather'
-export const ZIP_TO_GEOLOCATION_URL =
-    'http://api.openweathermap.org/geo/1.0/zip'
+export const ZIP_BASED_WEATHER =
+    'https://api.openweathermap.org/data/2.5/weather'
 export const CITY_COUNTRY_TO_GEOLOCATION_URL =
-    'http://api.openweathermap.org/geo/1.0/direct'
+    'https://api.openweathermap.org/data/2.5/weather'
 export const WEATHER_ICON_URL =
     'https://openweathermap.org/payload/api/media/file/'
 export const OPENWEATHER_LINK = 'https://openweathermap.org/'

@@ -1,9 +1,9 @@
-import {CoordinateConvertionApiResponse} from '@/sharedTypes'
+import {CurrentWeatherApiResponse} from '@/sharedTypes'
 import {ZIP_TO_GEOLOCATION_SS_API} from '@/utils/constants'
 
-export const zipToGeolocation = async (
+export const zipBasedWeather = async (
     zipcode: string,
-): Promise<CoordinateConvertionApiResponse> => {
+): Promise<CurrentWeatherApiResponse> => {
     const response = await fetch(ZIP_TO_GEOLOCATION_SS_API, {
         method: 'POST',
         headers: {

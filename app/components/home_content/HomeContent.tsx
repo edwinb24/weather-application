@@ -1,9 +1,9 @@
 'use client'
 import formClasses from '@/globalFormStyles.module.css'
-import {addressToGeolocation} from '@/lib/addressToGeolocation'
 import {getWeather} from '@/lib/getWeather'
-import {zipToGeolocation} from '@/lib/zipToGeolocation'
+import {zipBasedWeather} from '@/lib/zipBasedWeather'
 
+import {addressToGeolocation} from '@/lib/addressToGeolocation'
 import {
     AddressType,
     DisplayWeatherResult,
@@ -49,49 +49,71 @@ export default function HomeContent() {
         let displayErrorMessage = ''
         try {
             if (normalizedValue.type === LOCATION_INPUT_TYPES.zipcode) {
-                const response = await zipToGeolocation(
+                const response = await zipBasedWeather(
                     normalizedValue.value as string,
                 )
                 const data = await response
-                lat = data.lat
-                lon = data.lon
-                message = data.message
                 displayErrorMessage = data.displayMessage
+                message = data.message
+
+                if (message.length > 0) {
+                    throw new Error('Error during type convertion: ' + message)
+                }
+                setCurrWeather({
+                    weatherMain: data.weatherMain,
+                    weatherDescription: data.weatherDescription,
+                    temperature: data.temperature,
+                    weatherIcon: data.weatherIcon,
+                    location: formInputs.location.value,
+                })
             } else if (normalizedValue.type === LOCATION_INPUT_TYPES.address) {
-                const response = await addressToGeolocation(
-                    normalizedValue.value as AddressType,
-                )
+                const {city, state, country} =
+                    normalizedValue.value as AddressType
+                const response = await addressToGeolocation({
+                    city,
+                    state,
+                    country,
+                })
                 const data = await response
-                lat = data.lat
-                lon = data.lon
-                message = data.message
                 displayErrorMessage = data.displayMessage
+                message = data.message
+
+                if (message.length > 0) {
+                    throw new Error('Error during type convertion: ' + message)
+                }
+                setCurrWeather({
+                    weatherMain: data.weatherMain,
+                    weatherDescription: data.weatherDescription,
+                    temperature: data.temperature,
+                    weatherIcon: data.weatherIcon,
+                    location: formInputs.location.value,
+                })
             } else {
+                // lat and lon
                 const coordinates =
                     normalizedValue.value as LongitudeAndLatitudeType
                 lat = coordinates.lat
                 lon = coordinates.lon
-            }
-            if (message.length > 0) {
-                throw new Error('Error during type convertion: ' + message)
-            }
+                const response = await getWeather({lat, lon})
+                const data = await response
+                if (message.length > 0) {
+                    throw new Error('Error during type convertion: ' + message)
+                }
 
-            const response = await getWeather({lat, lon})
-            const data = await response
+                message = data.message
+                displayErrorMessage = data.displayMessage
+                if (message.length > 0) {
+                    throw new Error('Error during type convertion: ' + message)
+                }
 
-            message = data.message
-            displayErrorMessage = data.displayMessage
-            if (message.length > 0) {
-                throw new Error('Error during type convertion: ' + message)
+                setCurrWeather({
+                    weatherMain: data.weatherMain,
+                    weatherDescription: data.weatherDescription,
+                    temperature: data.temperature,
+                    weatherIcon: data.weatherIcon,
+                    location: formInputs.location.value,
+                })
             }
-
-            setCurrWeather({
-                weatherMain: data.weatherMain,
-                weatherDescription: data.weatherDescription,
-                temperature: data.temperature,
-                weatherIcon: data.weatherIcon,
-                location: formInputs.location.value,
-            })
         } catch (e) {
             if (e instanceof Error) {
                 message = e.message

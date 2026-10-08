@@ -1,4 +1,4 @@
-import {CoordinateConvertionApiResponse} from '@/sharedTypes'
+import {CurrentWeatherApiResponse} from '@/sharedTypes'
 
 import {AddressType} from '@/sharedTypes'
 import {ADDRESS_TO_GEOLOCATION_SS_API} from '@/utils/constants'
@@ -7,7 +7,7 @@ export const addressToGeolocation = async ({
     city,
     state,
     country,
-}: AddressType): Promise<CoordinateConvertionApiResponse> => {
+}: AddressType): Promise<CurrentWeatherApiResponse> => {
     const response = await fetch(ADDRESS_TO_GEOLOCATION_SS_API, {
         method: 'POST',
         headers: {

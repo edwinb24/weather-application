@@ -1,4 +1,8 @@
-import {CITY_COUNTRY_TO_GEOLOCATION_URL} from '@/utils/constants'
+import {
+    CITY_COUNTRY_TO_GEOLOCATION_URL,
+    WEATHER_UNIT,
+    WEATHER_URL,
+} from '@/utils/constants'
 
 export async function POST(request: Request): Promise<Response> {
     const requestInfo = await request.json()
@@ -8,27 +12,31 @@ export async function POST(request: Request): Promise<Response> {
         const url = new URL(CITY_COUNTRY_TO_GEOLOCATION_URL)
         url.searchParams.set('q', `${city},${state},${country}`)
         url.searchParams.set('appid', process.env.WEATHER_API_KEY!)
+        url.searchParams.set('units', WEATHER_UNIT)
 
         const response = await fetch(url)
         const data = await response.json()
 
-        if (!response.ok || data.length < 1) {
+        if (!response.ok || !data?.weather[0]) {
             return Response.json({
-                lat: '',
-                lon: '',
+                weatherMain: '',
+                weatherDescription: '',
+                temperature: 0,
                 displayMessage:
-                    response.status === 400 || response.status === 200
-                        ? 'City not found, verify you are adding a city, state/province, and a country, separated by a comma.'
+                    response.status === 400
+                        ? "Weather information couldn't be found"
                         : response.status === 429
-                          ? "City information can't be retrieve since the application already reach its use quota for the day, try again tomorrow"
-                          : 'Error retrieving coordinates for city',
+                          ? "Information can't be retrieve since the application already reach its use quota for the day, try again tomorrow"
+                          : 'Error retrieving weather information',
                 message: `Server Return ${response.status}: ${data?.message ?? 'OpenWeather API error'}`,
             })
         }
 
         return Response.json({
-            lat: data[0]?.lat ?? 0,
-            lon: data[0]?.lon ?? 0,
+            weatherMain: data.weather[0].main || '',
+            weatherDescription: data.weather[0].description || '',
+            weatherIcon: data.weather[0].icon || '',
+            temperature: data?.main?.temp ? Math.round(data.main.temp) : 0,
             displayMessage: data?.message || '',
             message: data?.message || '',
         })
@@ -39,12 +47,17 @@ export async function POST(request: Request): Promise<Response> {
             message = e.message
         } else {
             displayMessage = 'Error retrieving coordinates for zipcode'
-            message =
-                'Unknown Error While Excecuting at: ' +
-                CITY_COUNTRY_TO_GEOLOCATION_URL
+            message = 'Unknown Error While Excecuting at: ' + WEATHER_URL
         }
         console.error(message)
 
-        return Response.json({lat: '', lon: '', message, displayMessage})
+        return Response.json({
+            weatherMain: '',
+            weatherDescription: '',
+            temperature: 0,
+            weatherIcon: '',
+            message,
+            displayMessage,
+        })
     }
 }
