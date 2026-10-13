@@ -1,9 +1,9 @@
 {
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
-  "/api/address-to-geolocation/route": "/api/address-to-geolocation",
+  "/api/address-based-weather/route": "/api/address-based-weather",
   "/api/weather-request/route": "/api/weather-request",
-  "/api/zipcode-to-geolocation/route": "/api/zipcode-to-geolocation",
+  "/api/zipcode-based-weather/route": "/api/zipcode-based-weather",
   "/favicon.ico/route": "/favicon.ico",
   "/page": "/"
 }
