@@ -1,31 +1,40 @@
 import {DisplayWeatherResult} from '@/sharedTypes'
-import {WEATHER_ICON_URL} from '@/utils/constants'
-import Image from 'next/image'
 import styles from './weatherResult.module.css'
+import WeatherIcon from '@/components/weather_icon/WeatherIcon'
+import LocationPinIcon from '@/components/svgs/LocationPinIcon'
 
-export default function WeatherResult({
+const WeatherResult = ({
     weatherMain,
     weatherDescription,
     temperature,
     weatherIcon,
     location,
-}: DisplayWeatherResult) {
+}: DisplayWeatherResult) => {
     return (
-        <div className={styles.weatherInfoWrapper}>
-            <p>{`${weatherDescription} at ${location} right now.`}</p>
-            <div className={styles.weatherInfo}>
-                <div className={styles.weatherDetails}>
-                    <p className={styles.weatherMain}>{weatherMain}</p>
-                    <p className={styles.temperature}>{temperature}°F</p>
-                </div>
-                <Image
-                    src={`${WEATHER_ICON_URL}${weatherIcon}.png`}
-                    alt={`icon of ${weatherMain}`}
-                    className={styles.weatherIconImage}
-                    width={200}
-                    height={200}
+        <article className={styles.weatherCard}>
+            <div className={styles.weatherDetails}>
+                <p className={styles.location}>
+                    <LocationPinIcon size={16} />
+                    {location}
+                </p>
+                <p className={styles.temperature}>
+                    {temperature}°<span className={styles.unit}>F</span>
+                </p>
+                <p className={styles.condition}>
+                    <span className={styles.weatherMain}>{weatherMain}</span>
+                    <span className={styles.description}>
+                        {weatherDescription} right now
+                    </span>
+                </p>
+            </div>
+            <div className={styles.iconCircle}>
+                <WeatherIcon
+                    weatherMain={weatherMain}
+                    weatherIcon={weatherIcon}
                 />
             </div>
-        </div>
+        </article>
     )
 }
+
+export default WeatherResult

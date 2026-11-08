@@ -1,42 +1,155 @@
-.homeConentWrapper {
-    width: min(800px, 80vw);
-    padding: 20;
-    border: 3px solid #ddd;
-    border-radius: 5;
-    background: rgba(255, 255, 255, 0.05);
-
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* For Safari support */
-}
-
-.inputRow {
-    display: flex;
-    align-items: stretch;
-    gap: 8px;
+.homeContentWrapper {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.inputRow > input {
-    flex: 1;
-    min-width: 0;
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.searchCard {
+    padding: 12px;
+    border-radius: var(--card-radius);
+    background: var(--surface-color);
+    box-shadow: var(--surface-shadow);
+    transition: box-shadow 200ms ease;
+}
+
+.searchCard:focus-within {
+    box-shadow:
+        0 0 0 3px color-mix(in srgb, var(--accent-color) 35%, transparent),
+        var(--surface-shadow);
+}
+
+.searchCardError,
+.searchCardError:focus-within {
+    box-shadow:
+        0 0 0 2px var(--error-color),
+        var(--surface-shadow);
+}
+
+.searchRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .locationButton {
     flex-shrink: 0;
-    width: 44px;
-    border: 1px solid var(--color-primary);
-    border-radius: 5px;
-    background-color: var(--lightest-background-color);
-    font-size: 20px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--accent-soft-color);
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: transform 150ms ease;
+    transition:
+        background-color 150ms ease,
+        transform 150ms ease;
 }
 
 .locationButton:hover:not(:disabled) {
+    background: var(--accent-soft-hover-color);
     transform: scale(1.05);
 }
 
 .locationButton:disabled {
     cursor: progress;
-    opacity: 0.6;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.searchInput {
+    flex: 1;
+    min-width: 0;
+    height: 52px;
+    padding: 0 8px;
+    border: 0;
+    background: transparent;
+    color: var(--font-color);
+    font: 500 18px var(--font-sans), Arial, sans-serif;
+    outline: none;
+}
+
+.searchInput::placeholder {
+    color: var(--placeholder-color);
+}
+
+.submitButton {
+    flex-shrink: 0;
+    height: 52px;
+    padding: 0 28px;
+    border-radius: 999px;
+    background: var(--accent-color);
+    color: var(--pure-white);
+    font: 700 16px var(--font-sans), Arial, sans-serif;
+    cursor: pointer;
+    transition:
+        background-color 150ms ease,
+        opacity 150ms ease;
+}
+
+.submitButton:hover:not(:disabled) {
+    background: var(--accent-color-hover);
+}
+
+.submitButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.locationButton:focus-visible,
+.submitButton:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+.hint {
+    font-size: 14px;
+    color: var(--sky-text-muted-color);
+    transition: color 1.2s ease;
+}
+
+.errorMessage {
+    min-height: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--sky-error-color);
+    transition: color 1.2s ease;
+}
+
+@media (max-width: 520px) {
+    .searchRow {
+        flex-wrap: wrap;
+    }
+    /* pin + input share the first line; the input takes whatever space is left */
+    .searchInput {
+        flex: 1 1 0;
+    }
+    /* Search fills its own second line */
+    .submitButton {
+        flex-basis: 100%;
+    }
 }

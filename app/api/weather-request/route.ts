@@ -1,6 +1,6 @@
 import {WEATHER_UNIT, WEATHER_URL} from '@/utils/constants'
 
-export async function POST(request: Request) {
+export const POST = async (request: Request) => {
     const requestInfo = await request.json()
     const {lat, lon} = requestInfo
 

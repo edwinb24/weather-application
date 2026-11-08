@@ -1,0 +1,3 @@
+module.exports=[28424,a=>{a.v({className:"dm_sans_beac16ae-module__B0tJSq__className",variable:"dm_sans_beac16ae-module__B0tJSq__variable"})},33290,a=>{"use strict";var b=a.i(7997),c=a.i(28424);let d={className:c.default.className,style:{fontFamily:"'DM Sans', 'DM Sans Fallback'",fontStyle:"normal"}};null!=c.default.variable&&(d.variable=c.default.variable),a.s(["default",0,({children:a})=>(0,b.jsx)("html",{lang:"en",className:d.variable,children:(0,b.jsx)("body",{children:a})}),"metadata",0,{title:"Weather App",description:"App to get the weather in your location of choice"}],33290)},70864,function(a){a.n(a.i(33290))}];
+
+//# sourceMappingURL=%5Broot-of-the-server%5D__09w4vcb._.js.map

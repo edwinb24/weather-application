@@ -3,49 +3,81 @@
     flex: 1;
     flex-direction: column;
     align-items: center;
-    font-family: var(--font-geist-sans);
-    background:
-        linear-gradient(27deg, rgba(0, 0, 0, 0.02) 25px, transparent 25px) 0
-            25px,
-        linear-gradient(207deg, rgba(0, 0, 0, 0.02) 25px, transparent 25px) 10px
-            0px,
-        linear-gradient(27deg, rgba(20, 20, 20, 0.02) 25px, transparent 25px)
-            0px 10px,
-        linear-gradient(207deg, rgba(20, 20, 20, 0.02) 25px, transparent 25px)
-            10px 25px,
-        linear-gradient(90deg, rgba(30, 30, 30, 0.02) 10px, transparent 10px),
-        linear-gradient(
-            rgba(30, 30, 30, 0.02) 25%,
-            rgba(60, 60, 60, 0.02) 25%,
-            rgba(60, 60, 60, 0.02) 50%,
-            transparent 50%,
-            transparent 75%,
-            rgba(20, 20, 20, 0.02) 75%,
-            rgba(20, 20, 20, 0.02)
-        );
-    background-color: var(--color-secundar);
-    background-size: 20px 20px;
+    min-height: 100vh;
+    padding: 72px 16px 32px;
+    box-sizing: border-box;
+    color: var(--sky-text-color);
 }
+
+.titleMain,
+.subtitle,
+.attribution p,
+.attribution a {
+    transition: color 1.2s ease;
+}
+
 .main {
-    position: relative;
-    top: 250px;
+    width: 100%;
+    max-width: 760px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
 }
+
 .titleMain {
-    max-width: 90vw;
+    margin: 0 0 10px;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: var(--sky-text-color);
+}
+
+.subtitle {
+    margin: 0 0 36px;
+    font-size: 18px;
+    color: var(--sky-text-muted-color);
 }
 
 .attribution {
-    position: absolute;
+    margin-top: auto;
+    padding-top: 48px;
     display: flex;
-    right: 20;
-    flex-flow: column;
-    bottom: 5;
-    font-style: italic;
-    font-size: 10;
-    align-items: end;
-    justify-content: end;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.attribution p {
+    color: var(--sky-text-muted-color);
+}
+
+.attribution img {
+    border-radius: 8px;
+    transition: background-color 1.2s ease;
+}
+
+:global(:root[data-night]) .attribution img {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.attribution a {
+    color: var(--sky-link-color);
+    font-weight: 500;
+}
+
+.attribution a:hover {
+    color: var(--sky-link-hover-color);
+    text-decoration: underline;
+}
+
+@media (max-width: 520px) {
+    .page {
+        padding-top: 48px;
+    }
+    .subtitle {
+        font-size: 16px;
+        margin-bottom: 28px;
+    }
 }

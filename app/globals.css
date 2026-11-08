@@ -1,20 +1,37 @@
 /* Global Color Variables */
 :root {
-    --color-primary: #f2f2f2;
-    --color-secundar: #000;
+    --background-color: #dcebfa;
 
-    --lightest-background-color: #fefefe;
-    --green-accent: #49c38c;
-    --error-color: #a11f1f;
-    --lighter-error-color: #ffe1e1;
+    --font-color: #0f172a;
+    --font-color-muted: #334155;
+    --font-color-subtle: #475569;
+    --placeholder-color: #64748b;
 
-    --font-color: #fefefe;
-    --secundary-font-color: #222;
+    --surface-color: #ffffff;
+    --surface-shadow: 0 10px 30px rgba(30, 64, 120, 0.1);
+    --card-radius: 28px;
 
-    --pure-black: #000;
+    --accent-color: #2563eb;
+    --accent-color-hover: #1d4ed8;
+    --accent-soft-color: #eef4ff;
+    --accent-soft-hover-color: #dce7ff;
+    --accent-ink-color: #1e3a8a;
+
+    --error-color: #991b1b;
+
     --pure-white: #fff;
+
+    --sky-text-color: var(--font-color);
+    --sky-text-muted-color: var(--font-color-muted);
+    --sky-error-color: var(--error-color);
+    --sky-link-color: var(--accent-color);
+    --sky-link-hover-color: var(--accent-ink-color);
 }
 
-:root {
-    --background-color: #0e0c0c;
+:root[data-night] {
+    --sky-text-color: #f1f5f9;
+    --sky-text-muted-color: #cbd5e1;
+    --sky-error-color: #fca5a5;
+    --sky-link-color: #93c5fd;
+    --sky-link-hover-color: #bfdbfe;
 }

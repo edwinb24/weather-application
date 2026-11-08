@@ -1,26 +1,110 @@
-.weatherInfoWrapper {
-    border-top: 3 solid #666;
-    padding-top: 20;
+.weatherCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    padding: 36px 40px;
+    border-radius: var(--card-radius);
+    background: var(--surface-color);
+    box-shadow: var(--surface-shadow);
+    text-align: left;
+    animation: riseIn 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.weatherInfoWrapper:first-letter {
+@keyframes riseIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+}
+
+.weatherDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--font-color-muted);
+    overflow-wrap: anywhere;
+}
+
+.temperature {
+    font-size: clamp(72px, 14vw, 112px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+.unit {
+    margin-left: 4px;
+    font-size: 0.35em;
+    font-weight: 500;
+    letter-spacing: 0;
+    vertical-align: 0.95em;
+    color: var(--font-color-subtle);
+}
+
+.condition {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.weatherMain {
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--accent-soft-color);
+    color: var(--accent-ink-color);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.description {
+    font-size: 16px;
+    color: var(--font-color-subtle);
+}
+
+.description::first-letter {
     text-transform: uppercase;
 }
 
-.weatherInfo {
+.iconCircle {
+    flex-shrink: 0;
+    width: 168px;
+    height: 168px;
+    border-radius: 50%;
+    background: var(--accent-soft-color);
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.weatherDetails {
-    width: 200;
+
+@media (max-width: 520px) {
+    .weatherCard {
+        padding: 28px 24px;
+    }
+    .iconCircle {
+        width: 120px;
+        height: 120px;
+    }
+    .iconCircle svg {
+        width: 80px;
+        height: 80px;
+    }
 }
 
-.weatherMain {
-    font-size: 40;
-}
-
-.temperature {
-    font-size: 50;
-    font-weight: 800;
+@media (prefers-reduced-motion: reduce) {
+    .weatherCard {
+        animation: none;
+    }
 }

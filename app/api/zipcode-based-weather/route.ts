@@ -1,6 +1,6 @@
 import {WEATHER_UNIT, ZIP_BASED_WEATHER} from '@/utils/constants'
 
-export async function POST(request: Request): Promise<Response> {
+export const POST = async (request: Request): Promise<Response> => {
     const requestInfo = await request.json()
     const {zipcode} = requestInfo
     try {

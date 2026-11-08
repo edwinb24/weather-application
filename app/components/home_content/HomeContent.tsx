@@ -1,5 +1,9 @@
 'use client'
-import formClasses from '@/globalFormStyles.module.css'
+import LocationPinIcon from '@/components/svgs/LocationPinIcon'
+import WeatherBackground from '@/components/weather_background/WeatherBackground'
+import WeatherPreview, {
+    PreviewWeather,
+} from '@/components/weather_preview/WeatherPreview'
 import {getWeather} from '@/lib/getWeather'
 import {zipBasedWeather} from '@/lib/zipBasedWeather'
 
@@ -16,7 +20,7 @@ import {useState} from 'react'
 import styles from './homeContent.module.css'
 import WeatherResult from './weather_result/weatherResult'
 
-export default function HomeContent() {
+const HomeContent = () => {
     const [formInputs, setFormInputs] = useState<FormDataType>({
         location: {value: '', validationMessage: '', edited: false},
     })
@@ -29,6 +33,9 @@ export default function HomeContent() {
         location: '',
     })
     const [isLocating, setIsLocating] = useState<boolean>(false)
+    const [previewWeather, setPreviewWeather] = useState<PreviewWeather | null>(
+        null,
+    )
 
     const handleUseCurrentLocation = () => {
         if (!('geolocation' in navigator)) {
@@ -36,6 +43,7 @@ export default function HomeContent() {
             return
         }
         setIsLocating(true)
+        setPreviewWeather(null)
         setFormErrorMessage('')
         navigator.geolocation.getCurrentPosition(
             async position => {
@@ -192,63 +200,95 @@ export default function HomeContent() {
         })
     }
 
+    const hasError = formErrorMessage.length > 0
+
     return (
-        <div className={styles.homeConentWrapper}>
-            <form
-                className={formClasses.genericForm}
-                onSubmit={e => {
-                    e.preventDefault()
-                    handleFormSubmittion()
-                }}
-            >
-                <p className={formClasses.formDescription}>
-                    To get started, enter your city in the format city,
-                    state/province, country (country defaults to the US if
-                    omitted), your geo coordinates separated by a
-                    comma (,) or your zipcode follow by the 2 letter country
-                    code.
-                </p>
-                <div className={styles.inputRow}>
-                    <input
-                        autoComplete='zip'
-                        className={`${formClasses.genericFormField} ${formErrorMessage.length > 0 && formClasses.genericFormFieldError}`}
-                        type='text'
-                        name='location'
-                        placeholder='City, state and country, zip code and country, or geo coordinates'
-                        onChange={e => handleFieldChange(e.target.value)}
-                        value={formInputs.location.value}
-                    ></input>
-                    <button
-                        type='button'
-                        className={styles.locationButton}
-                        onClick={handleUseCurrentLocation}
-                        disabled={isLocating}
-                        title='Use my current location'
-                        aria-label='Use my current location'
-                    >
-                        {isLocating ? '…' : '🌐'}
-                    </button>
-                </div>
-                <div className={formClasses.formFieldErrorMessage}>
-                    {`${formErrorMessage ? '❌ ' + formErrorMessage : ''}`}
-                </div>
-                <button
-                    type='submit'
-                    className={formClasses.genericFormSubmitButton}
-                    disabled={formInputs.location.value.length < 1}
+        <>
+            <WeatherBackground
+                weatherMain={
+                    previewWeather?.weatherMain ?? currWeather.weatherMain
+                }
+                weatherIcon={
+                    previewWeather?.weatherIcon ?? currWeather.weatherIcon
+                }
+            />
+            <WeatherPreview
+                value={previewWeather}
+                onChange={setPreviewWeather}
+            />
+            <div className={styles.homeContentWrapper}>
+                <form
+                    className={`${styles.searchCard} ${hasError ? styles.searchCardError : ''}`}
+                    onSubmit={e => {
+                        e.preventDefault()
+                        setPreviewWeather(null)
+                        handleFormSubmittion()
+                    }}
                 >
-                    Submit
-                </button>
-            </form>
-            {currWeather.weatherMain.length > 0 && (
-                <WeatherResult
-                    location={currWeather.location}
-                    weatherMain={currWeather.weatherMain}
-                    weatherDescription={currWeather.weatherDescription}
-                    temperature={currWeather.temperature}
-                    weatherIcon={currWeather.weatherIcon}
-                />
-            )}
-        </div>
+                    <label htmlFor='location' className={styles.visuallyHidden}>
+                        Location
+                    </label>
+                    <div className={styles.searchRow}>
+                        <button
+                            type='button'
+                            className={styles.locationButton}
+                            onClick={handleUseCurrentLocation}
+                            disabled={isLocating}
+                            title='Use my current location'
+                            aria-label='Use my current location'
+                        >
+                            {isLocating ? (
+                                <span className={styles.spinner} />
+                            ) : (
+                                <LocationPinIcon size={22} />
+                            )}
+                        </button>
+                        <input
+                            id='location'
+                            autoComplete='postal-code'
+                            className={styles.searchInput}
+                            type='text'
+                            name='location'
+                            placeholder='Try “Austin, TX” or “78701”'
+                            aria-invalid={hasError}
+                            aria-describedby='location-hint location-error'
+                            onChange={e => handleFieldChange(e.target.value)}
+                            value={formInputs.location.value}
+                        ></input>
+                        <button
+                            type='submit'
+                            className={styles.submitButton}
+                            disabled={formInputs.location.value.length < 1}
+                        >
+                            Search
+                        </button>
+                    </div>
+                </form>
+                <p id='location-hint' className={styles.hint}>
+                    City, state (US assumed), for other cities include the
+                    country separated by a comma (City, state, country) · Zip
+                    code and country code · Latitude, longitude
+                </p>
+                <p
+                    id='location-error'
+                    className={styles.errorMessage}
+                    role='alert'
+                >
+                    {formErrorMessage}
+                </p>
+                {currWeather.weatherMain.length > 0 && (
+                    <WeatherResult
+                        key={`${currWeather.location}-${currWeather.weatherMain}-${currWeather.temperature}`}
+                        location={currWeather.location}
+                        weatherMain={currWeather.weatherMain}
+                        weatherDescription={currWeather.weatherDescription}
+                        temperature={currWeather.temperature}
+                        weatherIcon={currWeather.weatherIcon}
+                    />
+                )}
+            </div>
+        </>
     )
 }
+
+export default HomeContent
