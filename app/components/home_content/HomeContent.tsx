@@ -203,7 +203,8 @@ export default function HomeContent() {
             >
                 <p className={formClasses.formDescription}>
                     To get started, enter your city in the format city,
-                    state/province, country, your geo coordinates separated by a
+                    state/province, country (country defaults to the US if
+                    omitted), your geo coordinates separated by a
                     comma (,) or your zipcode follow by the 2 letter country
                     code.
                 </p>

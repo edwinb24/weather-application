@@ -3,7 +3,7 @@ import {
     LongitudeAndLatitudeType,
     NormalizeLocation,
 } from '@/sharedTypes'
-import {LOCATION_INPUT_TYPES} from '@/utils/constants'
+import {DEFAULT_COUNTRY, LOCATION_INPUT_TYPES} from '@/utils/constants'
 
 const isValidZipcode = (zipcode: string) => {
     const splittedCode = zipcode.split(',')
@@ -73,6 +73,21 @@ export const normalizeAndValidateLocationField = (
         return {
             type,
             value: {city, state, country},
+            validationMessage,
+        }
+    } else if (
+        splittedValue.length == 2 &&
+        splittedValue.every(part => part.trim().length > 0) &&
+        isValidAddress({
+            city: splittedValue[0],
+            state: splittedValue[1],
+            country: DEFAULT_COUNTRY,
+        })
+    ) {
+        const [city, state] = splittedValue
+        return {
+            type: LOCATION_INPUT_TYPES.address,
+            value: {city, state, country: DEFAULT_COUNTRY},
             validationMessage,
         }
     }

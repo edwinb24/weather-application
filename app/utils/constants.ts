@@ -15,6 +15,8 @@ export const ADDRESS_BASED_WEATHER_SS_API = '/api/address-based-weather'
 
 export const WEATHER_UNIT = 'imperial'
 
+export const DEFAULT_COUNTRY = 'US'
+
 export enum LOCATION_INPUT_TYPES {
     zipcode = 'zipcode',
     geolocation = 'geolocation',
