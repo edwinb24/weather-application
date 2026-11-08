@@ -28,6 +28,68 @@ export default function HomeContent() {
         weatherIcon: '',
         location: '',
     })
+    const [isLocating, setIsLocating] = useState<boolean>(false)
+
+    const handleUseCurrentLocation = () => {
+        if (!('geolocation' in navigator)) {
+            setFormErrorMessage('Geolocation is not supported by your browser')
+            return
+        }
+        setIsLocating(true)
+        setFormErrorMessage('')
+        navigator.geolocation.getCurrentPosition(
+            async position => {
+                const lat = position.coords.latitude.toFixed(4)
+                const lon = position.coords.longitude.toFixed(4)
+                const locationLabel = `${lat},${lon}`
+                setFormInputs({
+                    ...formInputs,
+                    location: {
+                        value: locationLabel,
+                        validationMessage: '',
+                        edited: true,
+                    },
+                })
+                try {
+                    const data = await getWeather({lat, lon})
+                    if (data.message.length > 0) {
+                        console.error(
+                            'Error retrieving weather: ' + data.message,
+                        )
+                        setFormErrorMessage(
+                            data.displayMessage ||
+                                'Error retrieving weather information',
+                        )
+                        return
+                    }
+                    setCurrWeather({
+                        weatherMain: data.weatherMain,
+                        weatherDescription: data.weatherDescription,
+                        temperature: data.temperature,
+                        weatherIcon: data.weatherIcon,
+                        location: locationLabel,
+                    })
+                } catch (e) {
+                    console.error(e)
+                    setFormErrorMessage('Error retrieving weather information')
+                } finally {
+                    setIsLocating(false)
+                }
+            },
+            error => {
+                setIsLocating(false)
+                setFormErrorMessage(
+                    error.code === error.PERMISSION_DENIED
+                        ? 'Location permission denied'
+                        : error.code === error.TIMEOUT
+                          ? 'Timed out getting your location'
+                          : 'Unable to determine your location',
+                )
+            },
+            {enableHighAccuracy: false, timeout: 10000, maximumAge: 300000},
+        )
+    }
+
     const handleFormSubmittion = async () => {
         const normalizedValue = normalizeAndValidateLocationField(
             formInputs.location.value,
@@ -145,15 +207,27 @@ export default function HomeContent() {
                     comma (,) or your zipcode follow by the 2 letter country
                     code.
                 </p>
-                <input
-                    autoComplete='zip'
-                    className={`${formClasses.genericFormField} ${formErrorMessage.length > 0 && formClasses.genericFormFieldError}`}
-                    type='text'
-                    name='location'
-                    placeholder='City, state and country, zip code and country, or geo coordinates'
-                    onChange={e => handleFieldChange(e.target.value)}
-                    value={formInputs.location.value}
-                ></input>
+                <div className={styles.inputRow}>
+                    <input
+                        autoComplete='zip'
+                        className={`${formClasses.genericFormField} ${formErrorMessage.length > 0 && formClasses.genericFormFieldError}`}
+                        type='text'
+                        name='location'
+                        placeholder='City, state and country, zip code and country, or geo coordinates'
+                        onChange={e => handleFieldChange(e.target.value)}
+                        value={formInputs.location.value}
+                    ></input>
+                    <button
+                        type='button'
+                        className={styles.locationButton}
+                        onClick={handleUseCurrentLocation}
+                        disabled={isLocating}
+                        title='Use my current location'
+                        aria-label='Use my current location'
+                    >
+                        {isLocating ? '…' : '🌐'}
+                    </button>
+                </div>
                 <div className={formClasses.formFieldErrorMessage}>
                     {`${formErrorMessage ? '❌ ' + formErrorMessage : ''}`}
                 </div>
