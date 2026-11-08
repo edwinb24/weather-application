@@ -47,7 +47,7 @@ yarn build:standalone
    git pull
    git status
    ```
-   *Note: Important to remember the repository doesn't contain the .env file. If we ever need to remove the weather-application directory, this file will need to be added manually to the weather-application directory.*
+   *Note: Important to remember the repository doesn't contain the .env file. If we ever need to remove the weather-application directory, this file will need to be added manually to the weather-application directory. Specifically to the .next directory.*
 7. restart PM2:
   ```
   pm2 restart weather-application
