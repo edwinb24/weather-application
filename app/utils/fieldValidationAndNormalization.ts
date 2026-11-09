@@ -22,11 +22,11 @@ const isValidZipcode = (zipcode: string) => {
     }
 }
 
-const isValidGeolocation = ({lat, lon}: LongitudeAndLatitudeType) => {
-    const regexLat = /^(-?[1-8]?\d(?:\.\d{1,18})?|90(?:\.0{1,18})?)$/
-    const regexLon =
+const isValidGeolocation = ({latitude, longitude}: LongitudeAndLatitudeType) => {
+    const regexLatitude = /^(-?[1-8]?\d(?:\.\d{1,18})?|90(?:\.0{1,18})?)$/
+    const regexLongitude =
         /^(-?(?:1[0-7]|[1-9])?\d(?:\.\d{1,18})?|180(?:\.0{1,18})?)$/
-    return regexLat.test(lat) && regexLon.test(lon)
+    return regexLatitude.test(latitude) && regexLongitude.test(longitude)
 }
 
 export const isValidAddress = ({city, state, country}: AddressType) => {
@@ -55,13 +55,13 @@ export const normalizeAndValidateLocationField = (
         !isNaN(Number(splittedValue[1]))
     ) {
         type = LOCATION_INPUT_TYPES.geolocation
-        const [lat, lon] = splittedValue
-        if (!isValidGeolocation({lat, lon})) {
+        const [latitude, longitude] = splittedValue
+        if (!isValidGeolocation({latitude, longitude})) {
             validationMessage = 'Please enter a valid latitude and longitude'
         }
         return {
             type,
-            value: {lat, lon},
+            value: {latitude, longitude},
             validationMessage,
         }
     } else if (splittedValue.length == 3) {

@@ -1,23 +1,13 @@
 'use client'
-import LiveIcon from '@/components/svgs/LiveIcon'
-import NightIcon from '@/components/svgs/NightIcon'
+import LiveIcon from '@/assets/svgs/LiveIcon'
+import NightIcon from '@/assets/svgs/NightIcon'
 import WeatherIcon from '@/components/weather_icon/WeatherIcon'
-import {ReactNode, useEffect, useId, useRef, useState} from 'react'
+import {
+    PREVIEW_WEATHER_ICONS_SIZE,
+    PREVIEW_WEATHER_OPTIONS,
+} from '@/utils/constants'
+import {ReactNode, useEffect, useRef, useState} from 'react'
 import styles from './weatherPreview.module.css'
-
-export type PreviewWeather = {weatherMain: string; weatherIcon: string}
-
-const OPTIONS = [
-    'Clear',
-    'Clouds',
-    'Drizzle',
-    'Rain',
-    'Thunderstorm',
-    'Snow',
-    'Fog',
-] as const
-
-const ICON_SIZE = 26
 
 const iconCode = (isNight: boolean) => (isNight ? '01n' : '01d')
 
@@ -28,7 +18,12 @@ type OptionButtonProps = {
     children: ReactNode
 }
 
-const OptionButton = ({label, isPressed, onClick, children}: OptionButtonProps) => (
+const OptionButton = ({
+    label,
+    isPressed,
+    onClick,
+    children,
+}: OptionButtonProps) => (
     <button
         type='button'
         className={styles.option}
@@ -42,8 +37,8 @@ const OptionButton = ({label, isPressed, onClick, children}: OptionButtonProps) 
 )
 
 type WeatherPreviewProps = {
-    value: PreviewWeather | null
-    onChange: (weather: PreviewWeather | null) => void
+    value: {weatherMain: string; weatherIcon: string} | null
+    onChange: (weather: {weatherMain: string; weatherIcon: string} | null) => void
 }
 
 const WeatherPreview = ({value, onChange}: WeatherPreviewProps) => {
@@ -51,7 +46,6 @@ const WeatherPreview = ({value, onChange}: WeatherPreviewProps) => {
     const [isOpen, setIsOpen] = useState(false)
     const rootRef = useRef<HTMLDivElement>(null)
     const toggleRef = useRef<HTMLButtonElement>(null)
-    const panelId = useId()
     const selected = value?.weatherMain ?? null
 
     useEffect(() => {
@@ -80,10 +74,9 @@ const WeatherPreview = ({value, onChange}: WeatherPreviewProps) => {
     }
 
     const toggleNight = () => {
-        const night = !isNight
-        setIsNight(night)
+        setIsNight(!isNight)
         if (selected) {
-            onChange({weatherMain: selected, weatherIcon: iconCode(night)})
+            onChange({weatherMain: selected, weatherIcon: iconCode(!isNight)})
         }
     }
 
@@ -94,7 +87,6 @@ const WeatherPreview = ({value, onChange}: WeatherPreviewProps) => {
                 type='button'
                 className={styles.drawerToggle}
                 aria-expanded={isOpen}
-                aria-controls={panelId}
                 aria-label={`Weather preview: ${selected ?? 'Live'}`}
                 onClick={() => setIsOpen(!isOpen)}
             >
@@ -102,19 +94,17 @@ const WeatherPreview = ({value, onChange}: WeatherPreviewProps) => {
                     <WeatherIcon
                         weatherMain={selected}
                         weatherIcon={iconCode(isNight)}
-                        size={ICON_SIZE}
+                        size={PREVIEW_WEATHER_ICONS_SIZE}
                     />
                 ) : (
                     <LiveIcon />
                 )}
             </button>
             <div
-                id={panelId}
                 className={`${styles.panel} ${isOpen ? styles.panelOpen : ''}`}
                 role='group'
                 aria-label='Weather preview'
             >
-                <span className={styles.label}>Preview</span>
                 <OptionButton
                     label='Live'
                     isPressed={selected === null}
@@ -122,7 +112,7 @@ const WeatherPreview = ({value, onChange}: WeatherPreviewProps) => {
                 >
                     <LiveIcon />
                 </OptionButton>
-                {OPTIONS.map(option => (
+                {Object.values(PREVIEW_WEATHER_OPTIONS).map(option => (
                     <OptionButton
                         key={option}
                         label={option}
@@ -132,7 +122,7 @@ const WeatherPreview = ({value, onChange}: WeatherPreviewProps) => {
                         <WeatherIcon
                             weatherMain={option}
                             weatherIcon={iconCode(isNight)}
-                            size={ICON_SIZE}
+                            size={PREVIEW_WEATHER_ICONS_SIZE}
                         />
                     </OptionButton>
                 ))}

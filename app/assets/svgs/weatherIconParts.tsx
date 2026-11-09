@@ -5,9 +5,9 @@ const CLOUD_PATH =
 
 const SUN_RAYS = Array.from({length: 8}, (_, i) => {
     const angle = (i * Math.PI) / 4
-    const point = (r: number) => [
-        (32 + r * Math.cos(angle)).toFixed(2),
-        (32 + r * Math.sin(angle)).toFixed(2),
+    const point = (radius: number) => [
+        (32 + radius * Math.cos(angle)).toFixed(2),
+        (32 + radius * Math.sin(angle)).toFixed(2),
     ]
     const [x1, y1] = point(18)
     const [x2, y2] = point(24)

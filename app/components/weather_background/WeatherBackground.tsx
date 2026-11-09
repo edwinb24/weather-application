@@ -1,4 +1,5 @@
 'use client'
+import {MAX_FRAME_SECONDS} from '@/utils/constants'
 import gsap from 'gsap'
 import {useEffect, useRef} from 'react'
 import styles from './weatherBackground.module.css'
@@ -8,8 +9,6 @@ type WeatherBackgroundProps = {
     weatherMain: string
     weatherIcon: string
 }
-
-const MAX_FRAME_SECONDS = 0.05
 
 const WeatherBackground = ({
     weatherMain,
@@ -25,8 +24,8 @@ const WeatherBackground = ({
 
     useEffect(() => {
         const canvas = canvasRef.current
-        const ctx = canvas?.getContext('2d')
-        if (!canvas || !ctx) return
+        const canvasDrawingContext = canvas?.getContext('2d')
+        if (!canvas || !canvasDrawingContext) return
 
         const reduceMotion = window.matchMedia(
             '(prefers-reduced-motion: reduce)',
@@ -37,25 +36,38 @@ const WeatherBackground = ({
         let height = 0
         let elapsed = 0
 
-        const render = (dt: number) => {
-            elapsed += dt
-            ctx.clearRect(0, 0, width, height)
+        const render = (secondsSinceLastDrawedFrame: number) => {
+            elapsed += secondsSinceLastDrawedFrame
+            canvasDrawingContext.clearRect(0, 0, width, height)
             for (const layer of layers) {
-                layer.draw(ctx, width, height, dt, elapsed)
+                layer.draw(
+                    canvasDrawingContext,
+                    width,
+                    height,
+                    secondsSinceLastDrawedFrame,
+                    elapsed,
+                )
             }
         }
         const resize = () => {
-            const dpr = Math.min(window.devicePixelRatio || 1, 2)
+            const devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2)
             width = window.innerWidth
             height = window.innerHeight
-            canvas.width = Math.round(width * dpr)
-            canvas.height = Math.round(height * dpr)
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+            canvas.width = Math.round(width * devicePixelRatio)
+            canvas.height = Math.round(height * devicePixelRatio)
+            canvasDrawingContext.setTransform(
+                devicePixelRatio,
+                0,
+                0,
+                devicePixelRatio,
+                0,
+                0,
+            )
             for (const layer of layers) layer.resize(width, height)
             if (reduceMotion) render(0)
         }
-        const tick = (_time: number, deltaMs: number) =>
-            render(Math.min(deltaMs / 1000, MAX_FRAME_SECONDS))
+        const tick = (_: number, timeSincePreviousFrame: number) =>
+            render(Math.min(timeSincePreviousFrame / 1000, MAX_FRAME_SECONDS))
 
         resize()
         window.addEventListener('resize', resize)

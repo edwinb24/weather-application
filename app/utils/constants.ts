@@ -9,9 +9,9 @@ export const WEATHER_ICON_URL =
 export const OPENWEATHER_LINK = 'https://openweathermap.org/'
 
 /** Local Server Side APIs */
-export const GET_WEATHER_SS_API = '/api/weather-request'
-export const ZIP_BASED_WEATHER_SS_API = '/api/zipcode-based-weather'
-export const ADDRESS_BASED_WEATHER_SS_API = '/api/address-based-weather'
+export const GET_WEATHER_SERVER_SIDE_API = '/api/weather-request'
+export const ZIP_BASED_WEATHER_SERVER_SIDE_API = '/api/zipcode-based-weather'
+export const ADDRESS_BASED_WEATHER_SERVER_SIDE_API = '/api/address-based-weather'
 
 export const WEATHER_UNIT = 'imperial'
 
@@ -22,3 +22,16 @@ export enum LOCATION_INPUT_TYPES {
     geolocation = 'geolocation',
     address = 'address',
 }
+
+export enum PREVIEW_WEATHER_OPTIONS {
+    Clear = 'Clear',
+    Clouds = 'Clouds',
+    Drizzle = 'Drizzle',
+    Rain = 'Rain',
+    Thunderstorm = 'Thunderstorm',
+    Snow = 'Snow',
+    Fog = 'Fog',
+}
+
+export const PREVIEW_WEATHER_ICONS_SIZE = 26
+export const MAX_FRAME_SECONDS = 0.05

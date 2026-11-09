@@ -2,12 +2,12 @@ import {WEATHER_UNIT, WEATHER_URL} from '@/utils/constants'
 
 export const POST = async (request: Request) => {
     const requestInfo = await request.json()
-    const {lat, lon} = requestInfo
+    const {latitude, longitude} = requestInfo
 
     try {
         const url = new URL(WEATHER_URL)
-        url.searchParams.set('lat', lat)
-        url.searchParams.set('lon', lon)
+        url.searchParams.set('lat', latitude)
+        url.searchParams.set('lon', longitude)
         url.searchParams.set('appid', process.env.WEATHER_API_KEY!)
         url.searchParams.set('units', WEATHER_UNIT)
 

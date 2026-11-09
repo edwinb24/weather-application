@@ -8,7 +8,7 @@ import {
     RainDrops,
     Snowflakes,
     Sun,
-} from '@/components/svgs/weatherIconParts'
+} from '@/assets/svgs/weatherIconParts'
 import {
     getSceneName,
     SceneName,
@@ -62,7 +62,11 @@ const ICON_ART: Record<SceneName, (options: IconArtOptions) => ReactNode> = {
     fog: () => <FogLines />,
 }
 
-const WeatherIcon = ({weatherMain, weatherIcon, size = 112}: WeatherIconProps) => {
+const WeatherIcon = ({
+    weatherMain,
+    weatherIcon,
+    size = 112,
+}: WeatherIconProps) => {
     const scene = getSceneName(weatherMain)
     const isNight = weatherIcon.endsWith('n')
     const isPartlyCloudy = weatherIcon.startsWith('02')

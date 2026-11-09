@@ -7,8 +7,8 @@ type FormInputType = {
 }
 
 export interface LongitudeAndLatitudeType {
-    lat: string
-    lon: string
+    latitude: string
+    longitude: string
 }
 
 export interface CoordinateConvertionApiResponse extends LongitudeAndLatitudeType {
