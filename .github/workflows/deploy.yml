@@ -85,7 +85,7 @@ jobs:
                     -p 127.0.0.1:3000:3000 \
                     --env-file /opt/weather-application/.env \
                     "$IMAGE_TAG"
-                  curl -fsS --retry 10 --retry-delay 2 --retry-connrefused http://127.0.0.1:3000 > /dev/null
+                  curl -fsS --retry 10 --retry-delay 2 --retry-all-errors http://127.0.0.1:3000 > /dev/null
                   docker image prune -f
                   echo "Deployed $IMAGE_TAG"
                   EOF
