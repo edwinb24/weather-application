@@ -25,7 +25,7 @@ const Home = () => {
                     height={42}
                 />
                 <p>
-                    Weather data provided by{' '}
+                    Weather data provided byAAA{' '}
                     <Link href={OPENWEATHER_LINK}>OpenWeather</Link>
                 </p>
             </footer>

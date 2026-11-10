@@ -3,6 +3,11 @@ name: Deploy to production
 on:
     push:
         branches: [main]
+        paths:
+            - '.next/standalone/**'
+            - 'Dockerfile'
+            - '.dockerignore'
+            - '.github/workflows/deploy.yml'
     workflow_dispatch:
 
 concurrency:
