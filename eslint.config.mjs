@@ -1,6 +1,6 @@
 import {defineConfig, globalIgnores} from 'eslint/config'
-import nextVitals from 'eslint-config-next/core-web-vitals'
-import nextTs from 'eslint-config-next/typescript'
+import nextCoreWebVitals from 'eslint-config-next/core-web-vitals'
+import nextTypescript from 'eslint-config-next/typescript'
 
 const ABBREVIATED_NAMES = [
     'btn',
@@ -29,31 +29,28 @@ const GLOBAL_ERROR_FILES = ['**/app/global-error.tsx']
 
 const HTML_PARSER_HANDLER_FILES = ['**/utils/htmlHandler.ts']
 
+const HTML_PARSER_IMPORT_PATTERN = {
+    regex: '^html-react-parser(/|$)',
+    message: 'Render CMS HTML with parseCmsHtml() from the htmlHandler.',
+}
+
+const STRING_LITERAL = "('[^']*'|\"[^\"]*\"|`.*`)"
+
+const MAX_LINE_LENGTH_EXEMPTIONS = [
+    String.raw`^import\s+(type\s+)?(\w+|\{\s*(type\s+)?\w+\s*\})\s+from\s`,
+    String.raw`^\s*\} from\s`,
+    String.raw`^\s*(\w+:\s*|\w+\s*=\s*|return\s+|[?:]\s+)?` +
+        STRING_LITERAL +
+        String.raw`[,;)\]}]*$`,
+    String.raw`^\s*[-\w]+=\{?` + STRING_LITERAL + String.raw`\}?\s*\/?>?$`,
+    String.raw`^\s*\{` + STRING_LITERAL + String.raw`\}$`,
+]
+
 const PRETTIER_TERNARY_NODES = [
     'ConditionalExpression',
     'ConditionalExpression > ArrayExpression',
     'ConditionalExpression > ArrayExpression > *',
 ]
-
-const RESTRICTED_IMPORT_PATHS = [
-    {
-        name: '@emotion/react',
-        message: 'Emotion is only a peer dependency of the MUI icons.',
-    },
-    {
-        name: '@emotion/styled',
-        message: 'Emotion is only a peer dependency of the MUI icons.',
-    },
-    {
-        name: 'rxjs',
-        message: 'rxjs is only a peer dependency of Apollo Client.',
-    },
-]
-
-const HTML_PARSER_IMPORT_PATH = {
-    name: 'html-react-parser',
-    message: 'Render CMS HTML with parseCmsHtml() from the htmlHandler.',
-}
 
 const RESTRICTED_IMPORT_PATTERNS = [
     {
@@ -61,16 +58,24 @@ const RESTRICTED_IMPORT_PATTERNS = [
         message: 'Import from parent folders through an alias, never ../',
     },
     {
-        regex: '^@mui/material(?!/SvgIcon$)',
-        message: 'Only @mui/material/SvgIcon may be imported from MUI.',
+        regex: '^@emotion/',
+        message: 'Emotion is only a peer dependency of the MUI icons.',
+    },
+    {
+        regex: '^@mui/(?!icons-material(/|$)|material/SvgIcon$)',
+        message: 'Use MUI only for icons: icons-material or material/SvgIcon.',
+    },
+    {
+        regex: '^rxjs(/|$)',
+        message: 'rxjs is only a peer dependency of Apollo Client.',
     },
 ]
 
 const UNUSED_NAME_PATTERN = '^_+$'
 
 const eslintConfig = defineConfig([
-    ...nextVitals,
-    ...nextTs,
+    ...nextCoreWebVitals,
+    ...nextTypescript,
     {
         rules: {
             '@typescript-eslint/array-type': ['error', {default: 'generic'}],
@@ -162,22 +167,22 @@ const eslintConfig = defineConfig([
                 {
                     code: 80,
                     tabWidth: 4,
-                    ignorePattern: '^import\\s|^\\s*\\} from\\s',
-                    ignoreStrings: true,
-                    ignoreTemplateLiterals: true,
+                    ignorePattern: MAX_LINE_LENGTH_EXEMPTIONS.join('|'),
                     ignoreUrls: true,
                 },
             ],
             'no-console': ['error', {allow: ['error']}],
-            'no-multiple-empty-lines': ['error', {max: 1, maxBOF: 0, maxEOF: 0}],
+            'no-multiple-empty-lines': [
+                'error',
+                {max: 1, maxBOF: 0, maxEOF: 0},
+            ],
             'no-restricted-imports': [
                 'error',
                 {
-                    paths: [
-                        ...RESTRICTED_IMPORT_PATHS,
-                        HTML_PARSER_IMPORT_PATH,
+                    patterns: [
+                        ...RESTRICTED_IMPORT_PATTERNS,
+                        HTML_PARSER_IMPORT_PATTERN,
                     ],
-                    patterns: RESTRICTED_IMPORT_PATTERNS,
                 },
             ],
             'no-tabs': 'error',
@@ -187,14 +192,20 @@ const eslintConfig = defineConfig([
                 'single',
                 {avoidEscape: true, allowTemplateLiterals: false},
             ],
-            'react/forbid-component-props': ['error', {forbid: ['style', 'sx']}],
+            'react/forbid-component-props': [
+                'error',
+                {forbid: ['style', 'sx']},
+            ],
+            'react/forbid-dom-props': ['error', {forbid: ['style']}],
             'react/jsx-curly-brace-presence': [
                 'error',
                 {props: 'never', children: 'ignore'},
             ],
-            'react/forbid-dom-props': ['error', {forbid: ['style']}],
             'react/no-danger': 'error',
-            'react/self-closing-comp': ['error', {component: true, html: false}],
+            'react/self-closing-comp': [
+                'error',
+                {component: true, html: false},
+            ],
             semi: ['error', 'never'],
             'sort-imports': [
                 'error',
@@ -207,10 +218,7 @@ const eslintConfig = defineConfig([
         rules: {
             'no-restricted-imports': [
                 'error',
-                {
-                    paths: RESTRICTED_IMPORT_PATHS,
-                    patterns: RESTRICTED_IMPORT_PATTERNS,
-                },
+                {patterns: RESTRICTED_IMPORT_PATTERNS},
             ],
         },
     },

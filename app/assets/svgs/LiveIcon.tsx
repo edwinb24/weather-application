@@ -11,7 +11,9 @@ const LiveIcon = () => (
         aria-hidden='true'
     >
         <circle cx='12' cy='12' r='2' fill='currentColor' />
-        <path d='M8.5 8.5a5 5 0 0 0 0 7M15.5 8.5a5 5 0 0 1 0 7M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8' />
+        <path
+            d='M8.5 8.5a5 5 0 0 0 0 7M15.5 8.5a5 5 0 0 1 0 7M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8'
+        />
     </svg>
 )
 

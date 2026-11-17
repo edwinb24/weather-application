@@ -11,7 +11,8 @@ export const OPENWEATHER_LINK = 'https://openweathermap.org/'
 /** Local Server Side APIs */
 export const GET_WEATHER_SERVER_SIDE_API = '/api/weather-request'
 export const ZIP_BASED_WEATHER_SERVER_SIDE_API = '/api/zipcode-based-weather'
-export const ADDRESS_BASED_WEATHER_SERVER_SIDE_API = '/api/address-based-weather'
+export const ADDRESS_BASED_WEATHER_SERVER_SIDE_API =
+    '/api/address-based-weather'
 
 export const WEATHER_UNIT = 'imperial'
 
