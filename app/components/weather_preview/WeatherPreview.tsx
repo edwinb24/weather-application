@@ -6,8 +6,7 @@ import {
     PREVIEW_WEATHER_ICONS_SIZE,
     PREVIEW_WEATHER_OPTIONS,
 } from '@/utils/constants'
-import type {ReactNode} from 'react'
-import {useEffect, useRef, useState} from 'react'
+import {type ReactNode, useEffect, useRef, useState} from 'react'
 import styles from './weatherPreview.module.css'
 
 const iconCode = (isNight: boolean) => (isNight ? '01n' : '01d')

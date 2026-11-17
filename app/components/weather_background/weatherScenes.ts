@@ -3,8 +3,11 @@ import {cloudsScene} from './weather_effects/clouds'
 import {drizzleScene} from './weather_effects/drizzle'
 import {fogScene} from './weather_effects/fog'
 import {rainScene} from './weather_effects/rain'
-import type {SceneBuilder, SceneLayer} from './weather_effects/shared'
-import {PALETTES} from './weather_effects/shared'
+import {
+    PALETTES,
+    type SceneBuilder,
+    type SceneLayer,
+} from './weather_effects/shared'
 import {snowScene} from './weather_effects/snow'
 import {thunderstormScene} from './weather_effects/thunderstorm'
 

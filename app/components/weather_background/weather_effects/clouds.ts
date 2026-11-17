@@ -1,6 +1,10 @@
 import {createMoon, createStars} from './nightSky'
-import type {Range, SceneBuilder, SceneLayer} from './shared'
-import {randomBetween} from './shared'
+import {
+    randomBetween,
+    type Range,
+    type SceneBuilder,
+    type SceneLayer,
+} from './shared'
 
 type CloudPalette = {
     rgb: string

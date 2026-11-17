@@ -1,7 +1,11 @@
 import {createClouds} from './clouds'
 import {nightGlow} from './nightSky'
-import type {Range, SceneBuilder, SceneLayer} from './shared'
-import {randomBetween} from './shared'
+import {
+    randomBetween,
+    type Range,
+    type SceneBuilder,
+    type SceneLayer,
+} from './shared'
 
 type RainOptions = {
     areaPerDrop: number

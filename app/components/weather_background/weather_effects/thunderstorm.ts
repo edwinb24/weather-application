@@ -1,8 +1,7 @@
 import {createClouds} from './clouds'
 import {nightGlow} from './nightSky'
 import {createRain} from './rain'
-import type {SceneBuilder, SceneLayer} from './shared'
-import {randomBetween} from './shared'
+import {randomBetween, type SceneBuilder, type SceneLayer} from './shared'
 
 const createLightning = ({maxAlpha}: {maxAlpha: number}): SceneLayer => {
     let nextStrike = randomBetween(2, 5)

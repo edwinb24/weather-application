@@ -1,6 +1,5 @@
 // Moon and stars, shared by every scene that can be shown at night
-import type {SceneLayer} from './shared'
-import {randomBetween} from './shared'
+import {randomBetween, type SceneLayer} from './shared'
 
 type MoonOptions = {
     showDisc: boolean

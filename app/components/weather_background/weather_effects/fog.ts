@@ -1,6 +1,5 @@
 import {nightGlow} from './nightSky'
-import type {SceneBuilder, SceneLayer} from './shared'
-import {randomBetween} from './shared'
+import {randomBetween, type SceneBuilder, type SceneLayer} from './shared'
 
 type FogOptions = {
     rgb: string

@@ -9,10 +9,9 @@ import {
     Snowflakes,
     Sun,
 } from '@/assets/svgs/weatherIconParts'
-import type {
-    SceneName} from '@/components/weather_background/weatherScenes'
 import {
     getSceneName,
+    type SceneName,
 } from '@/components/weather_background/weatherScenes'
 import type {ReactNode} from 'react'
 

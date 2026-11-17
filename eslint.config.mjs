@@ -34,16 +34,18 @@ const HTML_PARSER_IMPORT_PATTERN = {
     message: 'Render CMS HTML with parseCmsHtml() from the htmlHandler.',
 }
 
-const STRING_LITERAL = "('[^']*'|\"[^\"]*\"|`.*`)"
+const STRING_LITERAL_PATTERN = "('[^']*'|\"[^\"]*\"|`.*`)"
 
 const MAX_LINE_LENGTH_EXEMPTIONS = [
     String.raw`^import\s+(type\s+)?(\w+|\{\s*(type\s+)?\w+\s*\})\s+from\s`,
     String.raw`^\s*\} from\s`,
     String.raw`^\s*(\w+:\s*|\w+\s*=\s*|return\s+|[?:]\s+)?` +
-        STRING_LITERAL +
+        STRING_LITERAL_PATTERN +
         String.raw`[,;)\]}]*$`,
-    String.raw`^\s*[-\w]+=\{?` + STRING_LITERAL + String.raw`\}?\s*\/?>?$`,
-    String.raw`^\s*\{` + STRING_LITERAL + String.raw`\}$`,
+    String.raw`^\s*[-\w]+=\{?` +
+        STRING_LITERAL_PATTERN +
+        String.raw`\}?\s*\/?>?$`,
+    String.raw`^\s*\{` + STRING_LITERAL_PATTERN + String.raw`\}$`,
 ]
 
 const PRETTIER_TERNARY_NODES = [
@@ -87,7 +89,7 @@ const eslintConfig = defineConfig([
                 'error',
                 {
                     prefer: 'type-imports',
-                    fixStyle: 'separate-type-imports',
+                    fixStyle: 'inline-type-imports',
                 },
             ],
             '@typescript-eslint/naming-convention': [
@@ -127,6 +129,7 @@ const eslintConfig = defineConfig([
                     format: ['UPPER_CASE'],
                 },
             ],
+            '@typescript-eslint/no-import-type-side-effects': 'error',
             '@typescript-eslint/no-unused-vars': [
                 'error',
                 {
@@ -172,6 +175,7 @@ const eslintConfig = defineConfig([
                 },
             ],
             'no-console': ['error', {allow: ['error']}],
+            'no-duplicate-imports': 'error',
             'no-multiple-empty-lines': [
                 'error',
                 {max: 1, maxBOF: 0, maxEOF: 0},
