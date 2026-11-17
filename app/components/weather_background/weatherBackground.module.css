@@ -6,6 +6,64 @@
     transition: background-color 1.2s ease;
 }
 
+.layer[data-scene='none'][data-time='day'],
+.layer[data-scene='clear'][data-time='day'] {
+    background-color: #dcebfa;
+}
+
+.layer[data-scene='clouds'][data-time='day'] {
+    background-color: #cfdbe8;
+}
+
+.layer[data-scene='drizzle'][data-time='day'] {
+    background-color: #cbd7e4;
+}
+
+.layer[data-scene='rain'][data-time='day'] {
+    background-color: #c3cfdd;
+}
+
+.layer[data-scene='storm'][data-time='day'] {
+    background-color: #b3bdcd;
+}
+
+.layer[data-scene='snow'][data-time='day'] {
+    background-color: #ccd8e6;
+}
+
+.layer[data-scene='fog'][data-time='day'] {
+    background-color: #d6dce2;
+}
+
+.layer[data-scene='none'][data-time='night'],
+.layer[data-scene='clear'][data-time='night'] {
+    background-color: #0b1630;
+}
+
+.layer[data-scene='clouds'][data-time='night'] {
+    background-color: #131d33;
+}
+
+.layer[data-scene='drizzle'][data-time='night'] {
+    background-color: #141e2e;
+}
+
+.layer[data-scene='rain'][data-time='night'] {
+    background-color: #111a29;
+}
+
+.layer[data-scene='storm'][data-time='night'] {
+    background-color: #0b111c;
+}
+
+.layer[data-scene='snow'][data-time='night'] {
+    background-color: #1c283e;
+}
+
+.layer[data-scene='fog'][data-time='night'] {
+    background-color: #1f2837;
+}
+
 .canvas {
     display: block;
     width: 100%;

@@ -9,11 +9,12 @@ import {
     Snowflakes,
     Sun,
 } from '@/assets/svgs/weatherIconParts'
+import type {
+    SceneName} from '@/components/weather_background/weatherScenes'
 import {
     getSceneName,
-    SceneName,
 } from '@/components/weather_background/weatherScenes'
-import {ReactNode} from 'react'
+import type {ReactNode} from 'react'
 
 type WeatherIconProps = {
     weatherMain: string

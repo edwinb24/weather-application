@@ -3,8 +3,8 @@
 const CLOUD_PATH =
     'M20 40h26a10 10 0 0 0 0-20 14 14 0 0 0-27-2A11 11 0 0 0 20 40z'
 
-const SUN_RAYS = Array.from({length: 8}, (_, i) => {
-    const angle = (i * Math.PI) / 4
+const SUN_RAYS = Array.from({length: 8}, (_, rayIndex) => {
+    const angle = (rayIndex * Math.PI) / 4
     const point = (radius: number) => [
         (32 + radius * Math.cos(angle)).toFixed(2),
         (32 + radius * Math.sin(angle)).toFixed(2),

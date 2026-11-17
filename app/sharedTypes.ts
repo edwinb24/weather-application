@@ -11,7 +11,8 @@ export interface LongitudeAndLatitudeType {
     longitude: string
 }
 
-export interface CoordinateConvertionApiResponse extends LongitudeAndLatitudeType {
+export interface CoordinateConvertionApiResponse
+    extends LongitudeAndLatitudeType {
     message: string
     displayMessage: string
 }

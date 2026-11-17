@@ -1,6 +1,7 @@
 import {createClouds} from './clouds'
 import {nightGlow} from './nightSky'
-import {randomBetween, Range, SceneBuilder, SceneLayer} from './shared'
+import type {Range, SceneBuilder, SceneLayer} from './shared'
+import {randomBetween} from './shared'
 
 type RainOptions = {
     areaPerDrop: number
@@ -13,7 +14,7 @@ type RainOptions = {
 
 export const createRain = (options: RainOptions): SceneLayer => {
     type Drop = {x: number; y: number; length: number; speed: number}
-    let drops: Drop[] = []
+    let drops: Array<Drop> = []
     let spawnMinX = 0
     let spawnMaxX = 0
 
@@ -42,7 +43,7 @@ export const createRain = (options: RainOptions): SceneLayer => {
         },
         draw: (
             canvasDrawingContext,
-            _width,
+            _,
             height,
             secondsSinceLastDrawedFrame,
         ) => {

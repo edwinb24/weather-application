@@ -1,7 +1,7 @@
 import {createClouds} from './clouds'
 import {nightGlow} from './nightSky'
 import {createRain} from './rain'
-import {SceneBuilder} from './shared'
+import type {SceneBuilder} from './shared'
 
 export const drizzleScene: SceneBuilder = ({palette, isNight}) => [
     ...nightGlow(isNight, 0.6),

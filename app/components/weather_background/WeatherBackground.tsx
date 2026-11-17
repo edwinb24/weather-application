@@ -3,7 +3,7 @@ import {MAX_FRAME_SECONDS} from '@/utils/constants'
 import gsap from 'gsap'
 import {useEffect, useRef} from 'react'
 import styles from './weatherBackground.module.css'
-import {createScene, getSceneName, getSkyTint} from './weatherScenes'
+import {createScene, getSceneName} from './weatherScenes'
 
 type WeatherBackgroundProps = {
     weatherMain: string
@@ -91,7 +91,8 @@ const WeatherBackground = ({
     return (
         <div
             className={styles.layer}
-            style={{backgroundColor: getSkyTint(sceneName, isNight)}}
+            data-scene={sceneName}
+            data-time={isNight ? 'night' : 'day'}
             aria-hidden='true'
         >
             <canvas ref={canvasRef} className={styles.canvas} />

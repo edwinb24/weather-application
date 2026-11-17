@@ -1,6 +1,6 @@
-import {CurrentWeatherApiResponse} from '@/sharedTypes'
+import type {CurrentWeatherApiResponse} from '@/sharedTypes'
 
-import {AddressType} from '@/sharedTypes'
+import type {AddressType} from '@/sharedTypes'
 import {ADDRESS_BASED_WEATHER_SERVER_SIDE_API} from '@/utils/constants'
 
 export const addressToGeolocation = async ({

@@ -1,6 +1,6 @@
 import LocationPinIcon from '@/assets/svgs/LocationPinIcon'
 import WeatherIcon from '@/components/weather_icon/WeatherIcon'
-import {DisplayWeatherResult} from '@/sharedTypes'
+import type {DisplayWeatherResult} from '@/sharedTypes'
 import styles from './weatherResult.module.css'
 
 const WeatherResult = ({

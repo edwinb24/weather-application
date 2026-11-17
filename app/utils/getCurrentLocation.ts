@@ -1,4 +1,4 @@
-import {LongitudeAndLatitudeType} from '@/sharedTypes'
+import type {LongitudeAndLatitudeType} from '@/sharedTypes'
 
 export const getCurrentLocation = (): Promise<LongitudeAndLatitudeType> =>
     new Promise((resolve, reject) => {

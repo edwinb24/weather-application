@@ -6,7 +6,7 @@ import {getWeather} from '@/lib/getWeather'
 import {zipBasedWeather} from '@/lib/zipBasedWeather'
 
 import {addressToGeolocation} from '@/lib/addressToGeolocation'
-import {
+import type {
     AddressType,
     DisplayWeatherResult,
     FormDataType,

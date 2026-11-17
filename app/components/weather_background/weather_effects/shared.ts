@@ -78,4 +78,4 @@ export type Palette = (typeof PALETTES)[keyof typeof PALETTES]
 export type SceneBuilder = (options: {
     palette: Palette
     isNight: boolean
-}) => SceneLayer[]
+}) => Array<SceneLayer>

@@ -1,4 +1,4 @@
-import {
+import type {
     CurrentWeatherApiResponse,
     LongitudeAndLatitudeType,
 } from '@/sharedTypes'

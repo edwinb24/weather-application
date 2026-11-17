@@ -31,11 +31,14 @@ const CursorLight = () => {
             if (visible === isVisible) return
             isVisible = visible
             gsap.to(light, {
-                //prevent jumping of when the light left the screen to the new location
+                //prevent jumping of when the light left the screen
+                //to the new location
                 opacity: visible ? 1 : 0,
-                //Quarter of a sec fade for the light when we have it in a new pos
+                //Quarter of a sec fade for the light when we have it
+                //in a new pos
                 duration: 0.25,
-                //kill the opacity of the other, so we don't see it moving around to new pos
+                //kill the opacity of the other, so we don't see it moving
+                //around to new pos
                 overwrite: 'auto',
             })
         }

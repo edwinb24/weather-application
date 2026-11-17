@@ -1,5 +1,6 @@
 import {nightGlow} from './nightSky'
-import {randomBetween, SceneBuilder, SceneLayer} from './shared'
+import type {SceneBuilder, SceneLayer} from './shared'
+import {randomBetween} from './shared'
 
 type FogOptions = {
     rgb: string
@@ -12,8 +13,8 @@ const FOG_THICKNESS = 0.8
 const FOG_SHADOW_DROP = 0.5
 
 const createFog = (options: FogOptions): SceneLayer => {
-    const bands = Array.from({length: 8}, (_, i) => ({
-        y: 0.1 + i * 0.12 + randomBetween(-0.04, 0.04),
+    const bands = Array.from({length: 8}, (_, bandIndex) => ({
+        y: 0.1 + bandIndex * 0.12 + randomBetween(-0.04, 0.04),
         speed: randomBetween(0.36, 0.7),
         phase: randomBetween(0, Math.PI * 2),
         strength: randomBetween(0.7, 1),
@@ -45,17 +46,17 @@ const createFog = (options: FogOptions): SceneLayer => {
             canvasDrawingContext,
             width,
             height,
-            _secondsSinceLastDrawedFrame,
+            _,
             time,
         ) => {
             const radius = height * 0.16
             const stretch = (width / radius) * 0.55
             for (const band of bands) {
-                const x =
+                const bandCenterX =
                     width / 2 +
                     Math.sin(time * band.speed + band.phase) * width * 0.25
                 canvasDrawingContext.save()
-                canvasDrawingContext.translate(x, band.y * height)
+                canvasDrawingContext.translate(bandCenterX, band.y * height)
                 canvasDrawingContext.scale(stretch, FOG_THICKNESS)
                 canvasDrawingContext.translate(0, radius * FOG_SHADOW_DROP)
                 fillBand(

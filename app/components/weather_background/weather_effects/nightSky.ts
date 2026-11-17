@@ -1,5 +1,6 @@
 // Moon and stars, shared by every scene that can be shown at night
-import {randomBetween, SceneLayer} from './shared'
+import type {SceneLayer} from './shared'
+import {randomBetween} from './shared'
 
 type MoonOptions = {
     showDisc: boolean
@@ -19,7 +20,7 @@ export const createMoon = (options: MoonOptions): SceneLayer => {
             canvasDrawingContext,
             width,
             height,
-            _secondsSinceLastDrawedFrame,
+            _,
             time,
         ) => {
             const centerX = width * 0.8
@@ -96,12 +97,15 @@ export const createMoon = (options: MoonOptions): SceneLayer => {
             canvasDrawingContext.fillStyle = 'rgba(148,163,184,0.22)'
             canvasDrawingContext.beginPath()
             for (const crater of craters) {
-                const x = centerX + crater.x * moonRadius
-                const y = centerY + crater.y * moonRadius
-                canvasDrawingContext.moveTo(x + crater.radius * moonRadius, y)
+                const craterX = centerX + crater.x * moonRadius
+                const craterY = centerY + crater.y * moonRadius
+                canvasDrawingContext.moveTo(
+                    craterX + crater.radius * moonRadius,
+                    craterY,
+                )
                 canvasDrawingContext.arc(
-                    x,
-                    y,
+                    craterX,
+                    craterY,
                     crater.radius * moonRadius,
                     0,
                     Math.PI * 2,
@@ -120,7 +124,7 @@ export const createStars = ({density}: {density: number}): SceneLayer => {
         phase: number
         speed: number
     }
-    let stars: Star[] = []
+    let stars: Array<Star> = []
     return {
         resize: (width, height) => {
             const count = Math.round((width * height) / density)
@@ -134,16 +138,17 @@ export const createStars = ({density}: {density: number}): SceneLayer => {
         },
         draw: (
             canvasDrawingContext,
-            _width,
-            _height,
-            _secondsSinceLastDrawedFrame,
+            _,
+            __,
+            ___,
             time,
         ) => {
             canvasDrawingContext.fillStyle = '#F8FAFC'
             for (const star of stars) {
                 canvasDrawingContext.globalAlpha =
                     0.35 +
-                    0.45 * (0.5 + 0.5 * Math.sin(time * star.speed + star.phase))
+                    0.45 *
+                        (0.5 + 0.5 * Math.sin(time * star.speed + star.phase))
                 canvasDrawingContext.beginPath()
                 canvasDrawingContext.arc(
                     star.x,
@@ -160,5 +165,5 @@ export const createStars = ({density}: {density: number}): SceneLayer => {
 }
 
 // A faint moon glow behind the clouds, only at night
-export const nightGlow = (isNight: boolean, glow: number): SceneLayer[] =>
+export const nightGlow = (isNight: boolean, glow: number): Array<SceneLayer> =>
     isNight ? [createMoon({showDisc: false, glow})] : []

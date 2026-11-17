@@ -6,7 +6,8 @@ import {
     PREVIEW_WEATHER_ICONS_SIZE,
     PREVIEW_WEATHER_OPTIONS,
 } from '@/utils/constants'
-import {ReactNode, useEffect, useRef, useState} from 'react'
+import type {ReactNode} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import styles from './weatherPreview.module.css'
 
 const iconCode = (isNight: boolean) => (isNight ? '01n' : '01d')
@@ -38,7 +39,9 @@ const OptionButton = ({
 
 type WeatherPreviewProps = {
     value: {weatherMain: string; weatherIcon: string} | null
-    onChange: (weather: {weatherMain: string; weatherIcon: string} | null) => void
+    onChange: (
+        weather: {weatherMain: string; weatherIcon: string} | null,
+    ) => void
 }
 
 const WeatherPreview = ({value, onChange}: WeatherPreviewProps) => {

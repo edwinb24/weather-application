@@ -1,7 +1,8 @@
 import {createClouds} from './clouds'
 import {nightGlow} from './nightSky'
 import {createRain} from './rain'
-import {randomBetween, SceneBuilder, SceneLayer} from './shared'
+import type {SceneBuilder, SceneLayer} from './shared'
+import {randomBetween} from './shared'
 
 const createLightning = ({maxAlpha}: {maxAlpha: number}): SceneLayer => {
     let nextStrike = randomBetween(2, 5)
@@ -13,7 +14,7 @@ const createLightning = ({maxAlpha}: {maxAlpha: number}): SceneLayer => {
             canvasDrawingContext,
             width,
             height,
-            _secondsSinceLastDrawedFrame,
+            _,
             time,
         ) => {
             if (time >= nextStrike) {

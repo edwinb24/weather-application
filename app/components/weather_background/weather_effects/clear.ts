@@ -1,6 +1,6 @@
 import {createClouds} from './clouds'
 import {createMoon, createStars} from './nightSky'
-import {SceneBuilder, SceneLayer} from './shared'
+import type {SceneBuilder, SceneLayer} from './shared'
 
 const createSun = (): SceneLayer => ({
     resize: () => {},
@@ -8,7 +8,7 @@ const createSun = (): SceneLayer => ({
         canvasDrawingContext,
         width,
         height,
-        _secondsSinceLastDrawedFrame,
+        _,
         time,
     ) => {
         const centerX = width * 0.82
@@ -47,8 +47,8 @@ const createSun = (): SceneLayer => ({
         canvasDrawingContext.translate(-centerX, -centerY)
         canvasDrawingContext.fillStyle = rays
         canvasDrawingContext.beginPath()
-        for (let i = 0; i < 12; i++) {
-            const angle = (i * Math.PI * 2) / 12
+        for (let rayIndex = 0; rayIndex < 12; rayIndex++) {
+            const angle = (rayIndex * Math.PI * 2) / 12
             canvasDrawingContext.moveTo(centerX, centerY)
             canvasDrawingContext.arc(
                 centerX,

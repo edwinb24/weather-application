@@ -1,6 +1,7 @@
 import {createClouds} from './clouds'
 import {nightGlow} from './nightSky'
-import {randomBetween, Range, SceneBuilder, SceneLayer} from './shared'
+import type {Range, SceneBuilder, SceneLayer} from './shared'
+import {randomBetween} from './shared'
 
 type SnowOptions = {
     areaPerFlake: number
@@ -19,7 +20,7 @@ const createSnow = (options: SnowOptions): SceneLayer => {
         phase: number
         frequency: number
     }
-    let flakes: Flake[] = []
+    let flakes: Array<Flake> = []
 
     return {
         resize: (width, height) => {
@@ -48,10 +49,10 @@ const createSnow = (options: SnowOptions): SceneLayer => {
                     flake.y = -flake.radius - randomBetween(0, 40)
                     flake.x = randomBetween(0, width)
                 }
-                const x = flake.x + Math.sin(flake.phase) * options.sway
-                canvasDrawingContext.moveTo(x + flake.radius, flake.y)
+                const swayedX = flake.x + Math.sin(flake.phase) * options.sway
+                canvasDrawingContext.moveTo(swayedX + flake.radius, flake.y)
                 canvasDrawingContext.arc(
-                    x,
+                    swayedX,
                     flake.y,
                     flake.radius,
                     0,

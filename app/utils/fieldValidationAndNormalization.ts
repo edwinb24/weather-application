@@ -1,4 +1,4 @@
-import {
+import type {
     AddressType,
     LongitudeAndLatitudeType,
     NormalizeLocation,
@@ -22,7 +22,10 @@ const isValidZipcode = (zipcode: string) => {
     }
 }
 
-const isValidGeolocation = ({latitude, longitude}: LongitudeAndLatitudeType) => {
+const isValidGeolocation = ({
+    latitude,
+    longitude,
+}: LongitudeAndLatitudeType) => {
     const regexLatitude = /^(-?[1-8]?\d(?:\.\d{1,18})?|90(?:\.0{1,18})?)$/
     const regexLongitude =
         /^(-?(?:1[0-7]|[1-9])?\d(?:\.\d{1,18})?|180(?:\.0{1,18})?)$/
@@ -67,9 +70,10 @@ export const normalizeAndValidateLocationField = (
     } else if (splittedValue.length == 3) {
         type = LOCATION_INPUT_TYPES.address
         const [city, state, country] = splittedValue
-        if (!isValidAddress({city, state, country}))
+        if (!isValidAddress({city, state, country})) {
             validationMessage =
                 'Please enter a valid city, state/province, country'
+        }
         return {
             type,
             value: {city, state, country},

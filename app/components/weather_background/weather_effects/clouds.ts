@@ -1,5 +1,6 @@
 import {createMoon, createStars} from './nightSky'
-import {randomBetween, Range, SceneBuilder, SceneLayer} from './shared'
+import type {Range, SceneBuilder, SceneLayer} from './shared'
+import {randomBetween} from './shared'
 
 type CloudPalette = {
     rgb: string
@@ -25,12 +26,14 @@ export const createClouds = (options: CloudOptions): SceneLayer => {
         offsetX: number
         offsetY: number
     }
-    let clouds: Cloud[] = []
+    let clouds: Array<Cloud> = []
 
-    const makePuffs = (): Puff[] => {
+    const makePuffs = (): Array<Puff> => {
         const count = Math.round(randomBetween(6, 9))
-        return Array.from({length: count}, (_, i) => ({
-            offsetX: ((i / (count - 1)) * 2 - 1) * 95 + randomBetween(-15, 15),
+        return Array.from({length: count}, (_, puffIndex) => ({
+            offsetX:
+                ((puffIndex / (count - 1)) * 2 - 1) * 95 +
+                randomBetween(-15, 15),
             offsetY: -Math.abs(randomBetween(-30, 30)) + 10,
             radius: randomBetween(44, 76),
         }))
@@ -38,18 +41,18 @@ export const createClouds = (options: CloudOptions): SceneLayer => {
 
     const fillPuff = (
         canvasDrawingContext: CanvasRenderingContext2D,
-        x: number,
-        y: number,
+        centerX: number,
+        centerY: number,
         radius: number,
         rgb: string,
         alpha: number,
     ) => {
         const gradient = canvasDrawingContext.createRadialGradient(
-            x,
-            y,
+            centerX,
+            centerY,
             0,
-            x,
-            y,
+            centerX,
+            centerY,
             radius,
         )
         gradient.addColorStop(0, `rgba(${rgb},${alpha})`)
@@ -57,7 +60,7 @@ export const createClouds = (options: CloudOptions): SceneLayer => {
         gradient.addColorStop(1, `rgba(${rgb},0)`)
         canvasDrawingContext.fillStyle = gradient
         canvasDrawingContext.beginPath()
-        canvasDrawingContext.arc(x, y, radius, 0, Math.PI * 2)
+        canvasDrawingContext.arc(centerX, centerY, radius, 0, Math.PI * 2)
         canvasDrawingContext.fill()
     }
 
@@ -124,7 +127,7 @@ export const createClouds = (options: CloudOptions): SceneLayer => {
         draw: (
             canvasDrawingContext,
             width,
-            _height,
+            _,
             secondsSinceLastDrawedFrame,
         ) => {
             for (const cloud of clouds) {
