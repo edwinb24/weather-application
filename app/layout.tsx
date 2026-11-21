@@ -4,8 +4,8 @@ import './globals.css'
 import './reset.css'
 
 const dmSans = DM_Sans({
+    display: 'swap',
     subsets: ['latin'],
-    weight: ['400', '500', '700'],
     variable: '--font-sans',
 })
 

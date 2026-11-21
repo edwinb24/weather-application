@@ -1,14 +1,3 @@
-/* Viaoda Font Face */
-@font-face {
-    font-family: 'Metamorphous';
-    src:
-        url('https://ik.imagekit.io/edwinb24/Others/Metamorphous-Regular_B4MNJ8OHD.woff2?updatedAt=1762427124643')
-            format('woff2 supports variations'),
-        url('https://ik.imagekit.io/edwinb24/Others/Metamorphous-Regular_B4MNJ8OHD.woff2?updatedAt=1762427124643')
-            format('woff2-variations');
-    font-weight: 100 1000;
-}
-
 /* Resetting Styles */
 
 html,
