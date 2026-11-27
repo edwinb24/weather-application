@@ -22,5 +22,5 @@ ssh -o BatchMode=yes edwinbroce-claude "sudo -n /usr/bin/docker ps"
 
 - Read-only commands are fine to run when asked, such as `sudo -n /usr/bin/docker logs --tail 200 weather-application`.
 - Ask the user before any command that changes state, such as pulling or removing images, `docker rm`, `docker run`, restarts, editing files, or package installs.
-- For deploys and rollbacks, follow the procedures in [README.md](README.md). Normal deploys run from [.github/workflows/deploy.yml](.github/workflows/deploy.yml) on push.
+- For deploys and rollbacks, follow the procedures in [README.md](README.md). Normal deploys run from [.github/workflows/deploy.yml](.github/workflows/deploy.yml) on a push to `prod`, which is a merged release pull request from `main`. Merging into `main` never deploys. The workflow skips the deploy job when it runs from any other branch.
 - To find out which version is live, look at the image tag in `docker ps --format '{{.Image}}'`. The tag is the short git SHA of the deployed commit.
