@@ -31,29 +31,50 @@ To learn more about the Weather App development process, take a look at the foll
 
 The application runs in a Docker container on the Ubuntu server, behind an Apache reverse proxy on `127.0.0.1:3000`. Each image in GitHub Container Registry (GHCR) has the short commit SHA as its tag, so you can deploy or roll back to any commit.
 
-### Deploy a new commit to production
+Production runs the `prod` branch. Work is merged into `main` through pull requests, and merging into `main` never deploys. A release is a pull request from `main` into `prod`.
+
+### Release to production
+
+The workflow [deploy.yml](.github/workflows/deploy.yml) deploys every push to `prod` that changes `.next/standalone/**`, `Dockerfile`, `.dockerignore` or the workflow itself.
+
+1. On a task branch, build the standalone app and commit it together with the source changes:
+   ```
+   yarn build:standalone
+   ```
+   > **CAUTION:** The image copies the `.next/standalone` folder as it is. If you do not rebuild, the old build goes to production again.
+2. Open a pull request into `main` and merge it.
+3. Open a release pull request from `main` into `prod`. On GitHub, go to **Pull requests → New pull request**, set **base** to `prod` and **compare** to `main`. Or run:
+   ```
+   gh pr create --base prod --head main --title "Release <release_date>" --body "Release main to prod"
+   ```
+   Make sure to replace `<release_date>` with today's date, for example `2026-11-27`.
+4. Merge the release pull request with **Create a merge commit**. Do not squash or rebase it: that rewrites the commits, so `prod` drifts away from `main` and the next release pull request shows old changes again or conflicts.
+5. GitHub Actions builds the image, tags it with the short SHA of the new commit on `prod`, and deploys it. Follow the run under **Actions → Deploy to production**.
+6. Do the steps in [Verify production](#verify-production).
+
+To deploy `prod` again without changes, open **Actions → Deploy to production → Run workflow** and choose `prod`. A run started from any other branch skips the deploy job.
+
+### Deploy manually (when GitHub Actions is down)
 
 #### Your computer
 
 Run these steps in **Git Bash**, in the project root (the folder with `Dockerfile` and `package.json`).
 
 1. Start Docker Desktop and wait until it shows **Engine running**.
-2. Build the standalone app:
+2. Do steps 1 to 4 of [Release to production](#release-to-production), so the release is merged into `prod`. If GitHub Actions comes back later, it deploys the same commit again, which is harmless.
+3. Check out `prod` with the release:
    ```
-   yarn build:standalone
+   git checkout prod
+   git pull --ff-only origin prod
    ```
-3. Commit the changes, including the `.next/standalone` folder, and push to `main`.
-
-   > **CAUTION:** The image copies the `.next/standalone` folder as it is. If you do not run step 2, the old build goes to production again.
-
-4. Save the short SHA of the new commit:
+4. Save the short SHA of the release commit:
    ```
    sha=$(git rev-parse --short HEAD)
    echo $sha
    ```
    Record the value, because you use it on the server.
 
-   > **NOTE:** Do this step after the commit in step 3. Otherwise the tag points to the previous commit. Do not put spaces around `=`. In PowerShell, use `$sha = git rev-parse --short HEAD`.
+   > **NOTE:** Do this step after the checkout in step 3. Otherwise the tag points to a different commit. Do not put spaces around `=`. In PowerShell, use `$sha = git rev-parse --short HEAD`.
 
 5. Build the image with two tags:
    ```
@@ -109,7 +130,7 @@ Use this procedure if the version in production does not work. You do not build 
 
 1. Find the SHA of the last version that worked. Use one of these sources:
    - The SHA you recorded in step 2 of the server deployment.
-   - The output of `git log --oneline`.
+   - The output of `git log --oneline origin/prod`.
    - The tags at https://github.com/edwinb24?tab=packages → **weather-application**.
 
 #### The Linux server
@@ -133,7 +154,7 @@ Use this procedure if the version in production does not work. You do not build 
    ```
 6. Do the steps in [Verify production](#verify-production).
 
-> **CAUTION:** A rollback changes only the server. The `main` branch and the `latest` tag still point to the bad commit. Before the next deployment, fix the problem or undo the commit with `git revert <bad-sha>`. Then do [Deploy a new commit to production](#deploy-a-new-commit-to-production) again.
+> **CAUTION:** A rollback changes only the server. The `prod` branch and the `latest` tag still point to the bad commit, and the next push to `prod` deploys from it. Fix the problem on `main`, or undo the commit there with `git revert <bad-sha>`, then do [Release to production](#release-to-production) again.
 
 ### Verify production
 
