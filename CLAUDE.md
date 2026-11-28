@@ -4,7 +4,7 @@
 
 The app is deployed to a DigitalOcean droplet. Reach it over SSH with the alias from the local SSH config:
 
-```
+```bash
 ssh -o BatchMode=yes edwinbroce-claude "sudo -n /usr/bin/docker ps"
 ```
 
